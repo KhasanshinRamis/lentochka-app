@@ -5,6 +5,8 @@ import gift from '/public/grey-present.jpg';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { toast } from 'react-hot-toast';
+
 
 interface WishlistCardProps {
   gifts?: string[]; 
@@ -52,6 +54,7 @@ const WishlistCard: React.FC<WishlistCardProps> = ({ gifts }) => {
 
   const handleSaveClick = () => {
     setIsEditing(false);
+    toast.success("Данные успешно сохранены");
   };
 
   return (
@@ -76,7 +79,7 @@ const WishlistCard: React.FC<WishlistCardProps> = ({ gifts }) => {
             </div>
           )}
         </div>
-        <div className="p-8 flex flex-col gap-y-10"> {/* Increased spacing */}
+        <div className="p-8 flex flex-col gap-y-10"> 
         <div>
           <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Описание</div>
           {isEditing ? (
