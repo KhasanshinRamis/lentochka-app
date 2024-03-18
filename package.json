@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.15.13",
     "clipboard-copy": "^4.0.1",
+    "framer-motion": "^11.0.14",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
