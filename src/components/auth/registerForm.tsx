@@ -11,10 +11,12 @@ import { Button } from '@/components/ui/button';
 import { FormError } from '@/components/formError';
 import { FormSuccess } from '@/components/formSuccess';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import registerService from '@/services/registerService';
 
 
 export const RegisterForm = () => {
+	const queryClient = useQueryClient();
 
 	const [error, setError] = useState<string | undefined>('');
 	const [success, setSuccess] = useState<string>('');
@@ -29,10 +31,33 @@ export const RegisterForm = () => {
 	});
 
 
+	const { data } = useQuery({
+		queryKey: ['register'],
+		select: ({ data }) => {
+			setError(data.error),
+				setSuccess(data.success)
+		}
+	});
+
+	const mutation = useMutation({
+		mutationKey: ['register'],
+		mutationFn: (val: z.infer<typeof RegisterSchema>) => registerService.create(val),
+		onError: (error: any) => {
+			setError(error.response.data.error);
+			console.log(error.message);
+		},
+		onSuccess: (data: any) => {
+			console.log('Success!', data);
+			queryClient.invalidateQueries({ queryKey: ['register'] });
+			setSuccess(data.data.success);
+		}
+	})
+
 	const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
 		setError('');
 		setSuccess('');
 
+		mutation.mutate(values);
 	}
 
 	return (
@@ -57,6 +82,7 @@ export const RegisterForm = () => {
 									<FormControl>
 										<Input
 											{...field}
+											disabled={mutation.isPending}
 											placeholder='Иванов Иван'
 										/>
 									</FormControl>
@@ -73,6 +99,7 @@ export const RegisterForm = () => {
 									<FormControl>
 										<Input
 											{...field}
+											disabled={mutation.isPending}
 											placeholder='ivanovivan@example.com'
 											type='email'
 										/>
@@ -91,6 +118,7 @@ export const RegisterForm = () => {
 										<Input
 											{...field}
 											placeholder='******'
+											disabled={mutation.isPending}
 											type='password'
 										/>
 									</FormControl>
@@ -103,6 +131,7 @@ export const RegisterForm = () => {
 					<FormSuccess message={success} />
 					<Button
 						type='submit'
+						disabled={mutation.isPending}
 						className='w-full'
 					>
 						Зарегистрироваться

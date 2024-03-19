@@ -13,12 +13,14 @@ import { useState } from 'react';
 import { LoginSchema } from '@/schemas';
 import { FormError } from '@/components/formError';
 import { FormSuccess } from '@/components/formSuccess';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import loginService from '@/services/loginService';
 
 
 export const LoginForm = () => {
 
-	const searchParams = useSearchParams();
-
+	const queryClient = useQueryClient();
+	const router = useRouter();
 
 	const [errorMessage, setErrorMessage] = useState<string | undefined>('');
 	const [success, setSuccess] = useState<string>('');
@@ -32,10 +34,27 @@ export const LoginForm = () => {
 	});
 
 
+	const mutation = useMutation({
+		mutationKey: ['login'],
+		mutationFn: (val: z.infer<typeof LoginSchema>) => loginService.create(val),
+		onSuccess: (data: any) => {
+			console.log('Success!', data);
+			console.log(data.statusText);
+			setSuccess(data.data.success);
+			queryClient.invalidateQueries({ queryKey: ['login'] });
+			router.push(`/settings`);
+		},
+		onError: (error: any) => {
+			console.log(error.message);
+			setErrorMessage(error.response.data.error);
+		}
+	});
+
 	const onSubmit = (values: z.infer<typeof LoginSchema>) => {
 		setErrorMessage('');
 		setSuccess('');
 
+		mutation.mutate({ ...values });
 	};
 
 
@@ -61,6 +80,7 @@ export const LoginForm = () => {
 									<FormControl>
 										<Input
 											{...field}
+											disabled={mutation.isPending}
 											placeholder='ivanovivan@example.com'
 											type='email'
 										/>
@@ -78,6 +98,7 @@ export const LoginForm = () => {
 									<FormControl>
 										<Input
 											{...field}
+											disabled={mutation.isPending}
 											placeholder='******'
 											type='password'
 										/>
@@ -100,6 +121,7 @@ export const LoginForm = () => {
 					<FormError message={errorMessage} />
 					<FormSuccess message={success} />
 					<Button
+						disabled={mutation.isPending}
 						type='submit'
 						className='w-full'
 					>
