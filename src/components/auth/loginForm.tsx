@@ -21,6 +21,8 @@ export const LoginForm = () => {
 
 	const queryClient = useQueryClient();
 	const router = useRouter();
+	const searchParams = useSearchParams();
+	const urlError = searchParams.get('error') === 'OAuthAccountNotLinked' ? 'Email already in use with diferent provider!' : '';
 
 	const [errorMessage, setErrorMessage] = useState<string | undefined>('');
 	const [success, setSuccess] = useState<string>('');
@@ -118,7 +120,7 @@ export const LoginForm = () => {
 							)}
 						/>
 					</div>
-					<FormError message={errorMessage} />
+					<FormError message={errorMessage || urlError} />
 					<FormSuccess message={success} />
 					<Button
 						disabled={mutation.isPending}

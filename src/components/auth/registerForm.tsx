@@ -65,7 +65,6 @@ export const RegisterForm = () => {
 			headerLabel='Создать учетную запись'
 			backButtonLabel='У вас уже есть учетная запись?'
 			backButtonHref='/auth/login'
-			showSocial
 		>
 			<Form {...form}>
 				<form

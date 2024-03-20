@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import { Header } from '@/components/auth/header';
 import { BackButton } from '@/components/auth/backButton';
+import { Social } from './social';
 
 interface CardWrapperProps {
 	children: ReactNode;
@@ -22,7 +23,10 @@ export const CardWrapper = ({ children, headerLabel, backButtonHref, backButtonL
 			<CardContent>
 				{children}
 			</CardContent>
-			<CardFooter>
+			<CardFooter className='grid gap-y-5'>
+				{showSocial && (
+					<Social />
+				)}
 				<BackButton
 					label={backButtonLabel}
 					href={backButtonHref}
