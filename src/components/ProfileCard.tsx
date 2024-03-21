@@ -22,7 +22,7 @@ const ProfileCard = () => {
   };
 
   return (
-    <div className="h-screen bg-gray-100 relative flex flex-col items-center">
+    <div className="h-screen bg-gray-100 relative flex flex-col flex-grow items-center">
       <h1 className="text-3xl mb-4 text-pink-500">Это Вы</h1>
       <div className="flex flex-row items-center">
         <div>
