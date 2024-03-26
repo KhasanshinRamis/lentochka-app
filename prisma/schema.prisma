@@ -12,7 +12,7 @@ generator client {
 enum UserRole {
     ADMIN
     USER
-	BUSINESSMAN
+    BUSINESSMAN
 }
 
 model Account {
@@ -37,7 +37,7 @@ model Account {
 model User {
     id                    String                 @id @default(cuid())
     name                  String?
-    email                 String?                @unique
+    email                 String?add                @unique
     image                 String?
     password              String?
     emailVerified         DateTime?
@@ -45,6 +45,7 @@ model User {
     accounts              Account[]
     isTwoFactorEnabled    Boolean                @default(false)
     twoFactorConfirmation TwoFactorConfirmation?
+    wishlists             Wishlist[]
 }
 
 model VerificationToken {
@@ -81,4 +82,34 @@ model TwoFactorConfirmation {
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([userId])
+}
+
+model Wishlist {
+    id String @id @default(cuid())
+
+    userId String
+    user   User   @relation(fields: [userId], references: [id])
+
+    links    Link[]
+    hashtags Hashtag[]
+
+    @@unique([userId, id])
+}
+
+model Link {
+    id         String   @id @default(cuid())
+    url        String
+    wishlistId String
+    wishlist   Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+
+    @@index([wishlistId])
+}
+
+model Hashtag {
+    id         String   @id @default(cuid())
+    tag        String
+    wishlistId String
+    wishlist   Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+
+    @@index([wishlistId])
 }

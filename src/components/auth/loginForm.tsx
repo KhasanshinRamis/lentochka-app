@@ -44,7 +44,7 @@ export const LoginForm = () => {
 			console.log(data.statusText);
 			setSuccess(data.data.success);
 			queryClient.invalidateQueries({ queryKey: ['login'] });
-			router.push(`/settings`);
+			router.push(`/account`);
 		},
 		onError: (error: any) => {
 			console.log(error.message);
