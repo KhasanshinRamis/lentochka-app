@@ -27,6 +27,7 @@ export const RegisterForm = () => {
 			email: '',
 			password: '',
 			name: '',
+			nickname: '',
 		},
 	});
 
@@ -83,6 +84,23 @@ export const RegisterForm = () => {
 											{...field}
 											disabled={mutation.isPending}
 											placeholder='Иванов Иван'
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name='nickname'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Псевдоним</FormLabel>
+									<FormControl>
+										<Input
+											{...field}
+											disabled={mutation.isPending}
+											placeholder='ivanivanov2003'
 										/>
 									</FormControl>
 									<FormMessage />

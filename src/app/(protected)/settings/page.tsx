@@ -23,6 +23,9 @@ export default function SettingsPage() {
 			<div>
 				role: {user?.role}
 			</div>
+			<div>
+				nickname: {user?.nickname}
+			</div>
 			<LogoutButton>
 				Выйти
 			</LogoutButton>

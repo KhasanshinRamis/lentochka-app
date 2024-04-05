@@ -4,14 +4,14 @@ import Sidebar from "@/components/Sidebar";
 import ProfileCard from "@/app/(protected)/account/components/ProfileCard";
 
 export default function Main() {
-  return (
-    <main>
-        <Header></Header>
-        <div className="flex">
-						<Sidebar></Sidebar>
-						<ProfileCard></ProfileCard>
-				</div>
-        <Footer></Footer>
-    </main>
-  );
+	return (
+		<main>
+			<Header></Header>
+			<div className="flex">
+				<Sidebar></Sidebar>
+				<ProfileCard></ProfileCard>
+			</div>
+			<Footer></Footer>
+		</main>
+	);
 }

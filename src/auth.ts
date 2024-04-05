@@ -43,9 +43,9 @@ export const {
 				session.user.role = token.role as UserRole;
 			}
 
-
 			if (session.user) {
 				session.user.name = token.name;
+				session.user.nickname = token.nickname as string;
 				session.user.email = token.email as string;
 				session.user.isOAuth = token.isOAuth as boolean;
 			}
@@ -64,6 +64,7 @@ export const {
 
 			token.isOAuth = !!existingAccount;
 			token.name = existingUser.name;
+			token.nickname = existingUser.nickname;
 			token.email = existingUser.email;
 			token.role = existingUser.role;
 

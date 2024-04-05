@@ -6,9 +6,11 @@ import { Button, Popover, MenuItem } from '@mui/material';
 import copy from 'clipboard-copy';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { signOut, useSession } from 'next-auth/react';
 
 
 export const Header = () => {
+	const session = useSession();
 	const router = useRouter();
 	
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -42,6 +44,10 @@ export const Header = () => {
 
 	const openSigninPage = () => {
 		router.push('/auth/login');
+	}
+
+	const openSignoutPage = () => {
+		signOut();
 	}
 
 
@@ -98,7 +104,13 @@ export const Header = () => {
 				</div>
 			</div>
 			<div className="flex">
-				<button onClick={openSigninPage}>Войти</button>
+				{session.status === "unauthenticated" && (
+					<button onClick={openSigninPage}>Войти</button>
+				)}
+				{session.status === "authenticated" && (
+					<button onClick={openSignoutPage}>Выйти</button>
+				)}
+			
 			</div>
 		</div>
 	);
