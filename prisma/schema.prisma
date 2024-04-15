@@ -47,6 +47,26 @@ model User {
     isTwoFactorEnabled    Boolean                @default(false)
     twoFactorConfirmation TwoFactorConfirmation?
     wishlists             Wishlist[]
+    friends               Friends[]
+    potentialFriends      PotentialFriends[]
+}
+
+model Friends {
+    id            String @id @default(cuid())
+    nicknameBy    String @unique
+    nicknameTo    String @unique
+    userId        String @unique
+    userIdPFriend String @unique
+    user          User   @relation(fields: [userId], references: [id])
+}
+
+model PotentialFriends {
+    id            String @id @default(cuid())
+    nicknameBy    String @unique
+    nicknameTo    String @unique
+    userId        String @unique
+    userIdPFriend String @unique
+    user          User   @relation(fields: [userId], references: [id])
 }
 
 model VerificationToken {
