@@ -15,7 +15,7 @@ export const POST = async (req: NextRequest) => {
 export const GET = async() => {
     const user = await currentUser()
 
-    if (!user) return NextResponse.json({error: 'Пользователь не авторизован'}, {status: 200})
+    if (!user) return NextResponse.json({error: 'Пользователь не авторизован'}, {status: 401})
 
     const friends = await db.friends.findMany({
         where: {userId: user?.id}
@@ -68,7 +68,7 @@ export const PUT = async(req: NextRequest) => {
     ])
     
 
-    if (!user) return NextResponse.json({error: 'Пользователь не авторизован'}, {status: 200})
+    if (!user) return NextResponse.json({error: 'Пользователь не авторизован'}, {status: 401})
 
     
 
@@ -76,3 +76,32 @@ export const PUT = async(req: NextRequest) => {
 
 }
 
+export const DELETE = async(req: NextRequest) => {
+    const body = await req.json(); 
+
+    const friendIdToDelete = body.friend; 
+
+    const user = await currentUser()
+
+    if (!user) return NextResponse.json({error: 'Пользователь не авторизован'}, {status: 401})
+
+    await db.$transaction([
+        
+
+        db.friends.delete({
+                where: {
+                userId: user.id, 
+                userIdPFriend: friendIdToDelete.userIdPFriend
+            }
+        }),
+
+        db.friends.delete({
+                where: {
+                userId: friendIdToDelete.userIdPFriend, 
+                userIdPFriend: user.id
+            }
+        })
+    ])
+
+    return NextResponse.json({message: "Друг успешно удален"}, {status: 200});
+}

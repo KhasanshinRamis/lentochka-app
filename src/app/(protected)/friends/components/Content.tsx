@@ -7,15 +7,19 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import friendsService from '@/services/friendsService';
 import potentialFriendsService from '@/services/potentialFriendsService';
 import { IFriends } from '@/interface/IFriend';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 
 const Content: React.FC = () => {
+    const user = useCurrentUser()
     const queryClient = useQueryClient()
     const [inputValue, setInputValue] = useState<string>('')
     const [data, setData] = useState<any>()
 
     const onSearchClick = () => {
-        mutationGetFriendByNickname.mutate({inputValue})
+        if (inputValue != user?.nickname){
+            mutationGetFriendByNickname.mutate({inputValue})
+        }
     }
 
     const onAddFriend = () => {
@@ -30,7 +34,11 @@ const Content: React.FC = () => {
         mutationDenyFriend.mutate({friend})
     }
 
-    const {data: friendsdata} = useQuery({ 
+    const onDelete = (friend: IFriends) => {
+        mutationDeleteFriend.mutate({friend})
+    }
+
+    const {data: friendsdata, isSuccess, isLoading} = useQuery({ 
         queryKey: ['friends'],
         queryFn: () => friendsService.getAll(),
         select: ({data}) => data
@@ -70,8 +78,16 @@ const Content: React.FC = () => {
         onError: (error) => console.log(error.message),
     })
 
+    const mutationDeleteFriend = useMutation({
+        mutationKey: ['deletefriend'],
+        mutationFn: (friend: IFriends) => friendsService.deletefriend(friend),
+        onSuccess: (data) => {console.log(data)},
+        onError: (error) => console.log(error.message),
+    })
+
 
     const nickname: string = data?.data.nickname
+    friendsdata?.filter((friend: any) => data?.data.nickname != friend.nicknameTo && console.log("ХУЙНЯ",friend))
 
     // data?.data.nickname
 
@@ -82,15 +98,12 @@ const Content: React.FC = () => {
                     <Input type="search" placeholder="nickname" onChange={(event) => setInputValue(event.target.value)} />
                     <Button type="submit" onClick={onSearchClick}>Search</Button>
                 </div>
-                {/* <div className="text-zinc-950 ">
-                        {friendsdata?.map((friends: any) => (
-                            <div>{friends.nickname}</div>
-                        ))}
-                </div> */}
-                {data?.data &&(
+                {data?.data && (
                     <div className='grid grid-cols-2'>
                     {data?.data.nickname}
-                    <Button onClick={onAddFriend}>ДОБАВИТЬ ДРУГА</Button>
+                    {!friendsdata.find(() => data?.data.nickname) && (
+                        <Button onClick={onAddFriend}>ДОБАВИТЬ ДРУГА</Button>
+                    )}
                 </div>
                 )} 
 
@@ -103,6 +116,23 @@ const Content: React.FC = () => {
                                 <Button onClick={() => onDeny(friend)}>Отклонить</Button>
                             </div>
                         ))}
+                </div>
+
+                <div className="">
+
+                        {isLoading && (
+                            <div>Загрузка</div>
+                        )}
+
+                        {isSuccess && (
+                            <div className="">
+                                {friendsdata.map((friend: any) => (
+                                <div key={friend?.id}>
+                                    <div className="text-zinc-950">{friend?.nicknameTo}</div>
+                                    <Button onClick={() => onDelete(friend)}>Удалить</Button>
+                                </div>
+                            ))}
+                        </div>)}
                 </div>
                 
             </div>   

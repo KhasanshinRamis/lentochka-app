@@ -16,6 +16,10 @@ class FriendsService {
         return axios.get(this.URL)
     };
 
+	async deletefriend(friend: IFriends){
+		 return axios.delete(this.URL, { data: { friend } });
+	}
+
 
 };
 
