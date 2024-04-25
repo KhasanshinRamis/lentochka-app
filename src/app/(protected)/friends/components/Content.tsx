@@ -105,7 +105,7 @@ const Content: React.FC = () => {
                         <div className="relative w-12 h-12">
                             <img
                                 src={data?.data.image ? data?.data.image : "/avatar.png"}
-                                alt="Аватар друга"
+                                alt="РђРІР°С‚Р°СЂ РґСЂСѓРіР°"
                                 className="rounded-full w-full h-full object-cover"
                             />
                             
@@ -121,21 +121,21 @@ const Content: React.FC = () => {
                         {potentialfriendsdata?.friends.map((friend: any) => (
                             <div key={friend.id}>
                             <div className="flex flex-col gap-y-2">
-                            <div className="text-lg">Заявки в друзья</div>
+                            <div className="text-lg">Р—Р°СЏРІРєРё РІ РґСЂСѓР·СЊСЏ</div>
                             <div className="flex">
                                 <div className="flex flex-row items-center gap-x-4">
                                     <div className="relative w-12 h-12">
                                         <img
                                             src={data?.data.image ? data?.data.image : "/avatar.png"}
-                                            alt="Аватар друга"
+                                            alt="РђРІР°С‚Р°СЂ РґСЂСѓРіР°"
                                             className="rounded-full w-full h-full object-cover"
                                         />
                                         
                                     </div>
                                     <div>{friend.nicknameBy}</div>
                                     <div className="flex flex-row gap-x-1">
-                                        <Button onClick={() => onAdd(friend)}>Принять</Button>
-                                        <Button onClick={() => onDeny(friend)}>Отклонить</Button>
+                                        <Button onClick={() => onAdd(friend)}>РџСЂРёРЅСЏС‚СЊ</Button>
+                                        <Button onClick={() => onDeny(friend)}>РћС‚РєР»РѕРЅРёС‚СЊ</Button>
                                     </div>
                                 </div>
                             </div>
@@ -146,23 +146,23 @@ const Content: React.FC = () => {
 
                 <div className="">
                         {isLoading && (
-                            <div className="flex items-center justify-center text-lg">Загрузка...</div>
+                            <div className="flex items-center justify-center text-lg">Р—Р°РіСЂСѓР·РєР°...</div>
                         )}
 
                         {isSuccess && (
                             <div className="flex flex-col gap-y-4">
-                                <div className="text-lg">Друзья</div>
+                                <div className="text-lg">Р”СЂСѓР·СЊСЏ</div>
                                 {friendsdata.map((friend: any) => (
                                 <div key={friend?.id} className="flex items-center flex-row gap-4">
                                     <div className="relative w-12 h-12">
                                         <img
                                             src={data?.data.image ? data?.data.image : "/avatar.png"}
-                                            alt="Аватар друга"
+                                            alt="РђРІР°С‚Р°СЂ РґСЂСѓРіР°"
                                             className="rounded-full w-full h-full object-cover"
                                         />
                                     </div>
                                     <div className="text-zinc-950">{friend?.nicknameTo}</div>
-                                    <Button onClick={() => onDelete(friend)}>Удалить</Button>
+                                    <Button onClick={() => onDelete(friend)}>РЈРґР°Р»РёС‚СЊ</Button>
                                 </div>
                             ))}
                         </div>)}

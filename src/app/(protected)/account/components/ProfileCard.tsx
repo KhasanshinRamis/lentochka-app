@@ -17,7 +17,7 @@ const ProfileCard = () => {
   };
 
   const handleSaveClick = () => {
-    // Отправка данных о профиле на сервер
+    // РћС‚РїСЂР°РІРєР° РґР°РЅРЅС‹С… Рѕ РїСЂРѕС„РёР»Рµ РЅР° СЃРµСЂРІРµСЂ
     setIsEditing(false);
   };
 
@@ -34,7 +34,7 @@ const ProfileCard = () => {
   };
 
   const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
-    // Обработка загрузки новой аватарки
+    // РћР±СЂР°Р±РѕС‚РєР° Р·Р°РіСЂСѓР·РєРё РЅРѕРІРѕР№ Р°РІР°С‚Р°СЂРєРё
   };
 
   return (
@@ -93,8 +93,8 @@ const ProfileCard = () => {
                 className="mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200 resize-none"
               />
             ) : (
-              //<p className="text-gray-700 mb-4">{user?.description || "Расскажите о себе"}</p>
-              <p className="text-gray-700 mb-4 max-w-40 overflow-x-auto">{editedDescription.length == 0 ? "Расскажите о себе" : editedDescription}</p>
+              //<p className="text-gray-700 mb-4">{user?.description || "Р Р°СЃСЃРєР°Р¶РёС‚Рµ Рѕ СЃРµР±Рµ"}</p>
+              <p className="text-gray-700 mb-4 max-w-40 overflow-x-auto">{editedDescription.length == 0 ? "Р Р°СЃСЃРєР°Р¶РёС‚Рµ Рѕ СЃРµР±Рµ" : editedDescription}</p>
             )}
             <div className="flex justify-end">
               {isEditing ? (
@@ -102,14 +102,14 @@ const ProfileCard = () => {
                   onClick={handleSaveClick}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
                 >
-                  Сохранить
+                  РЎРѕС…СЂР°РЅРёС‚СЊ
                 </Button>
               ) : (
                 <Button
                   onClick={handleEditClick}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
                 >
-                  Редактировать
+                  Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ
                 </Button>
               )}
             </div>
