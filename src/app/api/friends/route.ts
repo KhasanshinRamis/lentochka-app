@@ -30,6 +30,9 @@ export const PUT = async(req: NextRequest) => {
     const body = await req.json()
     console.log(body)
 
+    if (!user) return NextResponse.json({error: 'Пользователь не авторизован'}, {status: 401})
+
+
     const potentialFriendsRecord = await db.potentialFriends.findFirst({
         where: {
             userId: body.friend.userId, 
@@ -38,34 +41,44 @@ export const PUT = async(req: NextRequest) => {
     })
 
     if (!potentialFriendsRecord) return NextResponse.json({error: 'Запись не найдена'}, {status: 401})
-
+    
+    var deleteID
         
-    await db.$transaction([
-        db.friends.create({
+    
+        await db.friends.create({
             data: {
             nicknameTo: potentialFriendsRecord.nicknameTo as string,
             nicknameBy: potentialFriendsRecord.nicknameBy,
             userId: potentialFriendsRecord.userId,
             userIdPFriend: potentialFriendsRecord.userIdPFriend
         }
-        }),
+        })
 
-        db.friends.create({
+        await db.friends.create({
             data: {
             nicknameTo: potentialFriendsRecord.nicknameBy as string,
             nicknameBy: potentialFriendsRecord.nicknameTo,
             userId: potentialFriendsRecord.userIdPFriend,
             userIdPFriend: potentialFriendsRecord.userId
         }
-        }),
-
-        db.potentialFriends.delete({
-                where: {
-                userId: potentialFriendsRecord.userId, 
-                userIdPFriend: potentialFriendsRecord.userIdPFriend
-            }
         })
-    ])
+
+        if(user.id){
+            deleteID = await db.potentialFriends.findFirst({
+                    where: {
+                        userId: potentialFriendsRecord.userId, 
+                        userIdPFriend: user.id
+                    }
+                })
+            }
+
+        if(deleteID){
+                await db.potentialFriends.delete({
+                        where: {
+                            id: deleteID.id
+                    }
+            })}
+
     
 
     if (!user) return NextResponse.json({error: 'Пользователь не авторизован'}, {status: 401})
@@ -84,24 +97,42 @@ export const DELETE = async(req: NextRequest) => {
     const user = await currentUser()
 
     if (!user) return NextResponse.json({error: 'Пользователь не авторизован'}, {status: 401})
+    
+    var friendFirstId
+    var friendSecondId
 
-    await db.$transaction([
+    if (user.id){
+
+
+            friendFirstId = await db.friends.findFirst({
+                where: {
+                    userId: user.id, 
+                    userIdPFriend: friendIdToDelete.userIdPFriend
+                }
+            })
+            
+            if(friendFirstId){
+                await db.friends.delete({
+                        where: {
+                            id: friendFirstId.id
+                    }
+            })}
+
+            friendSecondId = await db.friends.findFirst({
+                where: {
+                    userId: friendIdToDelete.userIdPFriend, 
+                    userIdPFriend: user.id
+                }
+            })
+
+            if(friendSecondId){
+                await db.friends.delete({
+                        where: {
+                            id: friendSecondId.id
+                    }
+            })}
+        }
         
-
-        db.friends.delete({
-                where: {
-                userId: user.id, 
-                userIdPFriend: friendIdToDelete.userIdPFriend
-            }
-        }),
-
-        db.friends.delete({
-                where: {
-                userId: friendIdToDelete.userIdPFriend, 
-                userIdPFriend: user.id
-            }
-        })
-    ])
 
     return NextResponse.json({message: "Друг успешно удален"}, {status: 200});
 }

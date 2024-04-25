@@ -7,9 +7,11 @@ export default function Main() {
 	return (
 		<main>
 			<Header></Header>
-			<div className="flex">
+			<div className="flex flex-row">
 				<Sidebar></Sidebar>
+				<div className="flex-grow">
 				<ProfileCard></ProfileCard>
+				</div>
 			</div>
 			<Footer></Footer>
 		</main>

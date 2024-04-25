@@ -39,7 +39,11 @@ export const GET = async() => {
         where: {userIdPFriend: user?.id}
     })
 
-    return NextResponse.json(friends, {status: 200})
+    const friendsfrom = await db.potentialFriends.findMany({
+        where: {userId: user?.id}
+    })
+
+    return NextResponse.json({friends, friendsfrom} , {status: 200})
 
 }
 
@@ -58,8 +62,7 @@ export const PUT = async(req: NextRequest) => {
 
     await db.potentialFriends.delete({
             where: {
-            userId: potentialFriendsRecord.userId, 
-            userIdPFriend: potentialFriendsRecord.userIdPFriend
+                id: potentialFriendsRecord.id
         }
     })
     

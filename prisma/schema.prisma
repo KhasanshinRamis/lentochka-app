@@ -41,6 +41,7 @@ model User {
     email                 String?                @unique
     image                 String?
     password              String?
+    description           String?
     emailVerified         DateTime?
     role                  UserRole               @default(USER)
     accounts              Account[]
@@ -53,19 +54,19 @@ model User {
 
 model Friends {
     id            String @id @default(cuid())
-    nicknameBy    String @unique
-    nicknameTo    String @unique
-    userId        String @unique
-    userIdPFriend String @unique
+    nicknameBy    String 
+    nicknameTo    String 
+    userId        String 
+    userIdPFriend String 
     user          User   @relation(fields: [userId], references: [id])
 }
 
 model PotentialFriends {
     id            String @id @default(cuid())
-    nicknameBy    String @unique
-    nicknameTo    String @unique
-    userId        String @unique
-    userIdPFriend String @unique
+    nicknameBy    String 
+    nicknameTo    String 
+    userId        String 
+    userIdPFriend String 
     user          User   @relation(fields: [userId], references: [id])
 }
 

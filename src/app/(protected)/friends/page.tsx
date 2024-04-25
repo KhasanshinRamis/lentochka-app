@@ -10,7 +10,9 @@ const Friends = () => {
             <Header/>
             <div className="flex flex-row">  
                 <Sidebar></Sidebar>
+                <div className="flex-grow">
                 <Content/>
+                </div>
             </div>
             <Footer></Footer>
         </div>

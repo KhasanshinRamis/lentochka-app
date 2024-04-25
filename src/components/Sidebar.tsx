@@ -18,8 +18,8 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <div className="h-screen w-64 bg-gray-900 text-gray-300 flex flex-col justify-between">
-      <div className="mt-8">
+    <div className="h-auto min-h-screen w-64 bg-gray-900 text-gray-300 flex flex-col justify-between">
+      <div className="mt-8 flex flex-col gap-y-4">
         <button
           className="block w-full py-2 px-4 text-left hover:bg-gray-800 hover:text-white transition duration-300 ease-in-out"
           onClick={profileSubmit}
