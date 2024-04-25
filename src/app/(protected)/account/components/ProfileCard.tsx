@@ -1,76 +1,123 @@
 "use client"
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { Button } from "@/components/ui/button"
+import WishlistCard from '@/components/WishlistCard';
 
 const ProfileCard = () => {
-  const [isEditing, setIsEditing] = useState<string | null>(null);
-  const [editedName, setEditedName] = useState("Иван Иванов");
-  const [editedPreferences, setEditedPreferences] = useState("Привет! Меня зовут Иван, я студент из Москвы. В свободное время люблю заниматься фотографией, путешествовать и читать книги. Я обожаю природу, особенно горы, и мечтаю побывать на всех континентах. Мои хобби включают фотографию ландшафтов, готовку экзотических блюд и занятия йогой.");
-  const avatarUrl = "avatar.png";
+  const user = useCurrentUser();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedName, setEditedName] = useState<string>(user?.name || '');
+  const [editedNickname, setEditedNickname] = useState<string>(user?.nickname || '');
+  // const [editedDescription, setEditedDescription] = useState<string>(user?.description || '');
+  const [editedDescription, setEditedDescription] = useState<string>('');
 
-  const handleEdit = (type: string) => {
-    setIsEditing(type);
+  const handleEditClick = () => {
+    setIsEditing(true);
   };
 
-  const handleSave = () => {
-    setIsEditing(null);
-    // В зависимости от значения isEditing сохраняем изменения в соответствующем состоянии
-    if (isEditing === "name") {
-      // Сохраняем измененное имя
-    } else if (isEditing === "preferences") {
-      // Сохраняем измененную информацию о пользователе
-    }
+  const handleSaveClick = () => {
+    // �������� ������ � ������� �� ������
+    setIsEditing(false);
+  };
+
+  const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEditedName(event.target.value);
+  };
+
+  const handleNicknameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEditedNickname(event.target.value);
+  };
+
+  const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setEditedDescription(event.target.value);
+  };
+
+  const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
+    // ��������� �������� ����� ��������
   };
 
   return (
-    <div className="h-screen bg-gray-100 relative flex flex-col flex-grow items-center">
-      <h1 className="text-3xl mb-4 text-pink-500">Это Вы</h1>
-      <div className="flex flex-row items-center">
-        <div>
-          <div className="mb-4 mr-4">
-            <img src={avatarUrl} alt="User Avatar" className="rounded-full w-40 h-40" />
+    <div className="flex flex-col h-full">
+      <div className="flex items-center justify-center">
+        <div className="md:flex">
+          <div className="md:flex-shrink-0 relative">
+            <img
+              className="h-48 w-48 object-cover rounded-full mx-auto mt-6 md:mt-0 cursor-pointer transition-opacity duration-300 ease-in-out hover:opacity-80"
+              src={user?.image || "/avatar.png"}
+              alt="Avatar"
+            />
+            {isEditing && (
+              <label
+                htmlFor="avatar-upload"
+                className="absolute h-48 w-48 inset-0 flex justify-center items-center bg-black bg-opacity-40 text-white text-3xl rounded-full cursor-pointer transition-opacity duration-300 ease-in-out hover:opacity-100"
+              >
+                <input
+                  id="avatar-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                  className="hidden"
+                />
+                +
+              </label>
+            )}
           </div>
-        </div>
-        <div className="max-w-sm mt-4">
-          <div className="text-center mb-2">
-            <div className="text-xl font-semibold">
-              {isEditing === "name" ? (
-                <input 
-                  type="text" 
-                  defaultValue={editedName} 
-                  onBlur={(e) => setEditedName(e.target.value)}
+          <div className="p-8 w-full">
+            {isEditing ? (
+              <div className="flex flex-row gap-x-2">
+                <input
+                  type="text"
+                  value={editedName}
+                  onChange={(e) => handleNameChange(e)}
+                  className="mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
                 />
-              ) : (
-                <div onClick={() => handleEdit("name")}>
-                  {editedName}
-                </div>
-              )}
-            </div>
-            <div>
-              {isEditing === "preferences" ? (
-                <textarea 
-                  defaultValue={editedPreferences} 
-                  onBlur={(e) => setEditedPreferences(e.target.value)}
-                  className="w-full h-32 px-3 py-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:outline-none focus:shadow-outline"
+                <input
+                  type="text"
+                  value={editedNickname}
+                  onChange={(e) => handleNicknameChange(e)}
+                  className="mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
                 />
+              </div>
+            ) : (
+              <div>
+                <h2 className="text-2xl font-bold mb-2">{editedName}</h2>
+                <p className="text-gray-500 mb-4">{editedNickname}</p>
+              </div>
+            )}
+            {isEditing ? (
+              <textarea
+                value={editedDescription}
+                onChange={(e) => handleDescriptionChange(e)}
+                maxLength={50}
+                className="mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200 resize-none"
+              />
+            ) : (
+              //<p className="text-gray-700 mb-4">{user?.description || "���������� � ����"}</p>
+              <p className="text-gray-700 mb-4 max-w-40 overflow-x-auto">{editedDescription.length == 0 ? "���������� � ����" : editedDescription}</p>
+            )}
+            <div className="flex justify-end">
+              {isEditing ? (
+                <Button
+                  onClick={handleSaveClick}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                >
+                  ���������
+                </Button>
               ) : (
-                <div onClick={() => handleEdit("preferences")}>
-                  {editedPreferences}
-                </div>
+                <Button
+                  onClick={handleEditClick}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                >
+                  �������������
+                </Button>
               )}
             </div>
           </div>
         </div>
       </div>
-      {!isEditing && (
-        <div className="absolute top-0 right-0 mt-4 mr-4">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => handleEdit("name")}>Редактировать</button>
-        </div>
-      )}
-      {isEditing && (
-        <div className="absolute top-0 right-0 mt-4 mr-4">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleSave}>Сохранить</button>
-        </div>
-      )}
+      
+
     </div>
   );
 };

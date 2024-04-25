@@ -24,18 +24,22 @@ const Content: React.FC = () => {
 
     const onAddFriend = () => {
         mutationAddFriend.mutate({nickname})
+        location.reload();
     }
     
     const onAdd = (friend: IFriends) => {
         mutationAcceptFriend.mutate({friend})
+        location.reload();
     }
 
     const onDeny = (friend: IFriends) => {
         mutationDenyFriend.mutate({friend})
+        location.reload();
     }
 
     const onDelete = (friend: IFriends) => {
         mutationDeleteFriend.mutate({friend})
+        location.reload();
     }
 
     const {data: friendsdata, isSuccess, isLoading} = useQuery({ 
@@ -85,51 +89,80 @@ const Content: React.FC = () => {
         onError: (error) => console.log(error.message),
     })
 
-
     const nickname: string = data?.data.nickname
-    friendsdata?.filter((friend: any) => data?.data.nickname != friend.nicknameTo && console.log("РҐРЈР™РќРЇ",friend))
-
-    // data?.data.nickname
-
+    
     return (
-        <div>
-            <div className="flex flex-col gap-y-2">
-                <div className="flex w-full max-w-sm items-center space-x-2">
-                    <Input type="search" placeholder="nickname" onChange={(event) => setInputValue(event.target.value)} />
-                    <Button type="submit" onClick={onSearchClick}>Search</Button>
+        <div className="p-2">
+            <div className="flex flex-col gap-y-8">
+                <div className="flex items-center justify-center">
+                    <div className="flex w-full max-w-sm items-center space-x-2">
+                        <Input type="search" placeholder="nickname" onChange={(event) => setInputValue(event.target.value)} />
+                        <Button type="submit" onClick={onSearchClick}>Search</Button>
+                    </div>
                 </div>
                 {data?.data && (
-                    <div className='grid grid-cols-2'>
-                    {data?.data.nickname}
-                    {!friendsdata.find(() => data?.data.nickname) && (
-                        <Button onClick={onAddFriend}>Р”РћР‘РђР’РРўР¬ Р”Р РЈР“Рђ</Button>
+                    <div className="flex flex-row gap-x-4 items-center">
+                        <div className="relative w-12 h-12">
+                            <img
+                                src={data?.data.image ? data?.data.image : "/avatar.png"}
+                                alt="Аватар друга"
+                                className="rounded-full w-full h-full object-cover"
+                            />
+                            
+                        </div>
+                        <div className="ml-4">{data?.data.nickname}</div>
+                        {!friendsdata.some((friend: any) => friend.nicknameTo === data?.data.nickname) && !potentialfriendsdata.friendsfrom.some((friend: any) => friend.nicknameTo === data?.data.nickname) && (
+                        <Button onClick={onAddFriend}>Add Friend</Button>
                     )}
-                </div>
-                )} 
-
+                    </div>
+                )}
+ 
                 <div className="text-zinc-950 ">
-                        {potentialfriendsdata?.map((friend: any) => (
+                        {potentialfriendsdata?.friends.map((friend: any) => (
                             <div key={friend.id}>
-                                <h1>Р”РѕР±Р°РІРёС‚СЊ РІ РґСЂСѓР·СЊСЏ</h1>
-                                <div>{friend.nicknameBy}</div>
-                                <Button onClick={() => onAdd(friend)}>РџСЂРёРЅСЏС‚СЊ</Button>
-                                <Button onClick={() => onDeny(friend)}>РћС‚РєР»РѕРЅРёС‚СЊ</Button>
+                            <div className="flex flex-col gap-y-2">
+                            <div className="text-lg">Заявки в друзья</div>
+                            <div className="flex">
+                                <div className="flex flex-row items-center gap-x-4">
+                                    <div className="relative w-12 h-12">
+                                        <img
+                                            src={data?.data.image ? data?.data.image : "/avatar.png"}
+                                            alt="Аватар друга"
+                                            className="rounded-full w-full h-full object-cover"
+                                        />
+                                        
+                                    </div>
+                                    <div>{friend.nicknameBy}</div>
+                                    <div className="flex flex-row gap-x-1">
+                                        <Button onClick={() => onAdd(friend)}>Принять</Button>
+                                        <Button onClick={() => onDeny(friend)}>Отклонить</Button>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
                             </div>
                         ))}
                 </div>
 
                 <div className="">
-
                         {isLoading && (
-                            <div>Р—Р°РіСЂСѓР·РєР°</div>
+                            <div className="flex items-center justify-center text-lg">Загрузка...</div>
                         )}
 
                         {isSuccess && (
-                            <div className="">
+                            <div className="flex flex-col gap-y-4">
+                                <div className="text-lg">Друзья</div>
                                 {friendsdata.map((friend: any) => (
-                                <div key={friend?.id}>
+                                <div key={friend?.id} className="flex items-center flex-row gap-4">
+                                    <div className="relative w-12 h-12">
+                                        <img
+                                            src={data?.data.image ? data?.data.image : "/avatar.png"}
+                                            alt="Аватар друга"
+                                            className="rounded-full w-full h-full object-cover"
+                                        />
+                                    </div>
                                     <div className="text-zinc-950">{friend?.nicknameTo}</div>
-                                    <Button onClick={() => onDelete(friend)}>РЈРґР°Р»РёС‚СЊ</Button>
+                                    <Button onClick={() => onDelete(friend)}>Удалить</Button>
                                 </div>
                             ))}
                         </div>)}
