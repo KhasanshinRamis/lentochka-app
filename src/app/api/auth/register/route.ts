@@ -18,7 +18,7 @@ export const POST = async (req: NextRequest) => {
 			return NextResponse.json({ error: 'Неверные поля!' }, { status: 401, statusText: 'Invalidated!' });
 		};
 
-		const { email, password, name } = validatedFields.data;
+		const { email, password, name, nickname } = validatedFields.data;
 		const hashedPassword = await bcrypt.hash(password, 10);
 		const existingUser = await getUserByEmail(email);
 
@@ -31,6 +31,7 @@ export const POST = async (req: NextRequest) => {
 				name,
 				email,
 				password: hashedPassword,
+				nickname: nickname
 
 			}
 		})

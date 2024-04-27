@@ -23,6 +23,9 @@ export const NewPasswordForm = () => {
 
 	const token = searchParams.get('token');
 
+	console.log(token);
+
+
 	const [error, setError] = useState<string | undefined>('');
 	const [success, setSuccess] = useState<string>('');
 
@@ -30,16 +33,10 @@ export const NewPasswordForm = () => {
 		resolver: zodResolver(NewPasswordSchema),
 		defaultValues: {
 			password: '',
+			token: '',
 		},
 	});
 
-	const { data } = useQuery({
-		queryKey: ['new-password'],
-		select: ({ data }) => {
-			setError(data.error),
-				setSuccess(data.success)
-		}
-	});
 
 	const mutation = useMutation({
 		mutationKey: ['new-password'],
@@ -55,9 +52,11 @@ export const NewPasswordForm = () => {
 		}
 	});
 
-	const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
-		console.log('submit');
 
+
+	const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
+
+		if (!token) return setError('Отсуствует токен!');
 
 		setError('');
 		setSuccess('');
@@ -65,6 +64,11 @@ export const NewPasswordForm = () => {
 
 		mutation.mutate({ ...values });
 	};
+
+	const onResetNewPassword = () => {
+		console.log('Ok');
+
+	}
 
 
 	return (
@@ -111,6 +115,6 @@ export const NewPasswordForm = () => {
 					</form>
 				</Form>
 			</CardWrapper>
-		</div>
+		</div >
 	);
 };

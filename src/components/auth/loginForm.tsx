@@ -95,7 +95,7 @@ export const LoginForm = () => {
 										name='code'
 										render={({ field }) => (
 											<FormItem>
-												<FormLabel>Two Factor Code</FormLabel>
+												<FormLabel>Двуфакторная аутентификация</FormLabel>
 												<FormControl>
 													<Input
 														{...field}
