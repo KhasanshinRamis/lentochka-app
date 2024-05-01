@@ -1,3 +1,13 @@
+#Valeria - 01.05.2024
+
+Компонент SellerCard:
+-Определен интерфейс Seller с полями id, name, location, rating и imageUrl.
+-Создан компонент SellerCard, который отображает информацию о продавце в виде карточки.
+-Компонент SellerCard принимает свойство seller типа Seller, содержащее данные о продавце.
+Компонент CardProduct:
+-Определен интерфейс Product с полями id, name, price, description и imageUrl.
+-Создан компонент CardProduct, который отображает информацию о товаре в виде карточки.
+
 #Lev 26.03.2024
 
 - Добавлены новые модели в schema.prisma: Wishlist, Link, Hashtag
