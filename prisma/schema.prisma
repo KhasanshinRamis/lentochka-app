@@ -47,26 +47,26 @@ model User {
     accounts              Account[]
     isTwoFactorEnabled    Boolean                @default(false)
     twoFactorConfirmation TwoFactorConfirmation?
-    wishlists             Wishlist[]
+    // wishlists             Wishlist[]
     friends               Friends[]
     potentialFriends      PotentialFriends[]
 }
 
 model Friends {
     id            String @id @default(cuid())
-    nicknameBy    String 
-    nicknameTo    String 
-    userId        String 
-    userIdPFriend String 
+    nicknameBy    String
+    nicknameTo    String
+    userId        String
+    userIdPFriend String
     user          User   @relation(fields: [userId], references: [id])
 }
 
 model PotentialFriends {
     id            String @id @default(cuid())
-    nicknameBy    String 
-    nicknameTo    String 
-    userId        String 
-    userIdPFriend String 
+    nicknameBy    String
+    nicknameTo    String
+    userId        String
+    userIdPFriend String
     user          User   @relation(fields: [userId], references: [id])
 }
 
@@ -97,6 +97,17 @@ model TwoFactorToken {
     @@unique([email, token])
 }
 
+model Product {
+    id          String  @id @default(cuid())
+    name        String
+    hashtag     Hashtag @relation(fields: [hashtagId], references: [id])
+    hashtagId   String
+    slug        String  @unique
+    price       Float
+    description String
+    image       String
+}
+
 model TwoFactorConfirmation {
     id String @id @default(cuid())
 
@@ -106,32 +117,36 @@ model TwoFactorConfirmation {
     @@unique([userId])
 }
 
-model Wishlist {
-    id String @id @default(cuid())
+// model Wishlist {
+//     id String @id @default(cuid())
 
-    userId String
-    user   User   @relation(fields: [userId], references: [id])
+//     userId String
+//     user   User   @relation(fields: [userId], references: [id])
 
-    links    Link[]
-    hashtags Hashtag[]
+//     links    Link[]
+//     hashtags Hashtag[]
 
-    @@unique([userId, id])
-}
+//     @@unique([userId, id])
+// }
 
-model Link {
-    id         String   @id @default(cuid())
-    url        String
-    wishlistId String
-    wishlist   Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+// model Link {
+//     id         String   @id @default(cuid())
+//     url        String
+//     wishlistId String
+//     wishlist   Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
 
-    @@index([wishlistId])
-}
+//     @@index([wishlistId])
+// }
 
 model Hashtag {
-    id         String   @id @default(cuid())
-    tag        String
-    wishlistId String
-    wishlist   Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+    id    String @id @default(cuid())
+    title String
+    tag   String
 
-    @@index([wishlistId])
+    Product Product[]
+
+    // Wishlist   Wishlist? @relation(fields: [wishlistId], references: [id])
+    // wishlistId String?
+
+    // @index(wishlistId)
 }
