@@ -46,6 +46,7 @@ model User {
     role                  UserRole               @default(USER)
     accounts              Account[]
     isTwoFactorEnabled    Boolean                @default(false)
+    isUserBanned          Boolean                @default(false)
     twoFactorConfirmation TwoFactorConfirmation?
     // wishlists             Wishlist[]
     friends               Friends[]

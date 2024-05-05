@@ -11,27 +11,15 @@ export const POST = async (req: NextRequest) => {
 
 		var product;
 
-
 		if (!user) {
 			return NextResponse.json({ error: "Необходимо авторизоваться" }, { status: 401 });
 		}
 
-		console.log(body);
-
-
+		if (user.role === 'USER') return NextResponse.json({ error: 'Нет доступа' }, { status: 403 })
 
 		const hastagTag = await db.hashtag.findFirst({
 			where: { tag: body.hashtag }
 		})
-
-		console.log(hastagTag);
-
-
-
-		console.log(user.id);
-		console.log(hastagTag?.id);
-
-
 
 		if (user.id && hastagTag?.id) {
 			product = await db.product.create({
@@ -45,8 +33,6 @@ export const POST = async (req: NextRequest) => {
 				},
 			});
 		}
-
-		console.log(product);
 
 		return NextResponse.json(product, { status: 200 });
 	} catch (error: any) {

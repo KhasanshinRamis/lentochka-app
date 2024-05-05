@@ -4,11 +4,10 @@ import { ToolbarTiptop } from '@/components/ui/toolbarTiptop';
 import Heading from '@tiptap/extension-heading';
 
 interface TiptapProps {
-	description: string,
 	onChange: (richText: string) => void;
 }
 
-export const Tiptap = ({ description, onChange }: TiptapProps) => {
+export const Tiptap = ({ onChange }: TiptapProps) => {
 	const editor = useEditor({
 		extensions: [StarterKit.configure({
 			
@@ -18,7 +17,6 @@ export const Tiptap = ({ description, onChange }: TiptapProps) => {
 				levels: [2]
 			}
 		})],
-		content: description,
 		editorProps: {
 			attributes: {
 				class:
@@ -28,8 +26,6 @@ export const Tiptap = ({ description, onChange }: TiptapProps) => {
 
 		onUpdate({ editor }) {
 			onChange(editor.getHTML())
-			console.log(editor.getHTML());
-
 		}
 	})
 

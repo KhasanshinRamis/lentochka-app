@@ -6,7 +6,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { NewProductSchema } from '@/schemas';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { FaFileImage } from "react-icons/fa";
 import { useMutation } from '@tanstack/react-query';
 import { Input } from '@/components/ui/input';
@@ -16,10 +16,14 @@ import { app } from '@/config/firebase';
 import productService from '@/services/productService';
 import { Button } from '@/components/ui/button';
 import { Tiptap } from '@/components/ui/tiptap';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { AdminNavbar } from '@/components/layout/adminNavbar';
+import { useCurrentRole } from '@/hooks/useCurrentRole';
+
 
 
 export default function NewProduct() {
-	
+	const role = useCurrentRole();
 
 	const [media, setMedia] = useState<string>('');
 	const [file, setFile] = useState<Blob | Uint8Array | ArrayBuffer>();
@@ -73,9 +77,7 @@ export default function NewProduct() {
 		mutationKey: ['new-post'],
 		mutationFn: (values: z.infer<typeof NewProductSchema>) => productService.create(values),
 		onSuccess: (data: any) => {
-			console.log('Success!', data);
-			console.log(data.success);
-			toast.success('Новая запись создана!');
+			toast.success('Продукт создан!')
 			form.reset();
 		},
 		onError: (error: any) => {
@@ -106,137 +108,158 @@ export default function NewProduct() {
 	console.log("media: ", media);
 	console.log("file: ", file);
 
-
+	if (role === 'USER') {
+		return (
+			<div className='grid items-center justify-center min-h-screen gap-y-4 bg-teal-950'>
+				<div>
+					<p className='text-secondary text-2xl font-semibold text-center'>
+						403 Ошибка
+					</p>
+					<p className='text-secondary text-2xl font-semibold text-center'>
+						⚔️ Доступ запрещён
+					</p>
+				</div>
+			</div>
+		)
+	}
 
 	return (
-		<div className='min-h-screen'>
-			<Form {...form}>
-				<form
-					className='grid gap-y-8 px-24 sm:px-4 py-8 h-full'
-					onSubmit={form.handleSubmit(onSubmit)}
-				>
-					<FormField
-						control={form.control}
-						name='name'
-						render={({ field }) => (
-							<FormItem>
-								<FormControl>
-									<Input
-										{...field}
-										placeholder='Заголовок'
-										disabled={mutation.isPending}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name='price'
-						render={({ field }) => (
-							<FormItem>
-								<FormControl>
-									<Input
-										{...field}
-										placeholder='Заголовок'
-										className='mb-4'
-										type='number'
-										disabled={mutation.isPending}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name='hashtag'
-						render={({ field }) => (
-							<FormItem>
-								<Select
-									disabled={mutation.isPending}
-									onValueChange={field.onChange}
-								>
-									<FormControl>
-										<SelectTrigger>
-											<SelectValue
-												placeholder='Выберите категорию'
+		<div className='grid items-center justify-center min-h-screen bg-teal-950'>
+			<Card className='w-[1200px] xl:w-[1024px] lg:w-[767px] md:w-[650px] sm:w-[300px] shadow-md'>
+				<AdminNavbar />
+				<CardHeader>
+					<CardTitle>
+						<p className='text-2xl font-semibold text-center md:text-lg'>
+							🔑 Управление
+						</p>
+					</CardTitle>
+				</CardHeader>
 
+
+				<CardContent>
+					<Form {...form}>
+						<form
+							className='grid gap-y-6'
+							onSubmit={form.handleSubmit(onSubmit)}
+						>
+							<FormField
+								control={form.control}
+								name='name'
+								render={({ field }) => (
+									<FormItem>
+										<FormControl>
+											<Input
+												{...field}
+												placeholder='Заголовок'
+												disabled={mutation.isPending}
 											/>
-										</SelectTrigger>
-									</FormControl>
-									<SelectContent>
-										<SelectItem value='electronics'>
-											Электроника
-										</SelectItem>
-										<SelectItem value='jewelry'>
-											Ювелирное украшение
-										</SelectItem>
-									</SelectContent>
-								</Select>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name='image'
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel
-									className='grid justify-center items-center bg-indigo-900 w-[32px] h-[32px] rounded-[50%]'
-									htmlFor="image"
-								>
-									<FaFileImage width={16} height={16} color='#F5EFEF' />
-								</FormLabel>
-								<FormControl>
-									<Input
-										{...field}
-										type="file"
-										id='image'
-										disabled={mutation.isPending}
-										onChange={(event) => {
-											if (event.target.files && event.target.files.length > 0) {
-												setFile(event.target.files[0]);
-											}
-										}}
-										style={{ display: 'none' }}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name='price'
+								render={({ field }) => (
+									<FormItem>
+										<FormControl>
+											<Input
+												{...field}
+												placeholder='Цена'
+												type='number'
+												disabled={mutation.isPending}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name='hashtag'
+								render={({ field }) => (
+									<FormItem>
+										<Select
+											disabled={mutation.isPending}
+											onValueChange={field.onChange}
+										>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue
+														placeholder='Выберите категорию'
 
-					<FormField
-						control={form.control}
-						name='description'
-						render={({ field }) => (
-							<FormItem>
-								<FormControl>
-									<Tiptap
-										description={field.name}
-										onChange={field.onChange}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+													/>
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												<SelectItem value='electronics'>
+													Электроника
+												</SelectItem>
+												<SelectItem value='jewelry'>
+													Ювелирное украшение
+												</SelectItem>
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name='image'
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel
+											className='grid justify-center items-center bg-indigo-900 w-[32px] h-[32px] rounded-[50%]'
+											htmlFor="image"
+										>
+											<FaFileImage width={16} height={16} color='#F5EFEF' />
+										</FormLabel>
+										<FormControl>
+											<Input
+												{...field}
+												type="file"
+												id='image'
+												disabled={mutation.isPending}
+												onChange={(event) => {
+													if (event.target.files && event.target.files.length > 0) {
+														setFile(event.target.files[0]);
+													}
+												}}
+												style={{ display: 'none' }}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 
-					{/* 
-					<FormError message={errorMessage} />
-					<FormSuccess message={success} /> */}
-					<Button
-						type='submit'
-						className='grid items-end'
-						disabled={mutation.isPending && disabledFromMedia}
-					>
-						Создать новую запись
-					</Button>
-				</form>
-			</Form>
+							<FormField
+								control={form.control}
+								name='description'
+								render={({ field }) => (
+									<FormItem>
+										<FormControl>
+											<Tiptap
+												onChange={field.onChange}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<Button
+								type='submit'
+								className='grid items-end'
+								disabled={mutation.isPending && disabledFromMedia}
+							>
+								Создать новую запись
+							</Button>
+						</form>
+					</Form>
+				</CardContent>
+			</Card>
 		</div>
 	)
 }
