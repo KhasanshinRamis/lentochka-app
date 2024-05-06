@@ -17,7 +17,7 @@ import productService from '@/services/productService';
 import { Button } from '@/components/ui/button';
 import { Tiptap } from '@/components/ui/tiptap';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { AdminNavbar } from '@/components/layout/adminNavbar';
+import { AdminNavbar } from '@/components/layout/admin/adminNavbar';
 import { useCurrentRole } from '@/hooks/useCurrentRole';
 
 

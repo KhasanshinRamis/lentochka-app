@@ -7,7 +7,7 @@ import { BeatLoader } from 'react-spinners';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
-import { AdminNavbar } from '@/components/layout/adminNavbar';
+import { AdminNavbar } from '@/components/layout/admin/adminNavbar';
 import { useCurrentRole } from '@/hooks/useCurrentRole';
 
 interface IUserConrol {
