@@ -1,12 +1,11 @@
 'use client';
-import Image from 'next/image';
 import Link from 'next/link';
-import { CiSearch } from "react-icons/ci";
 import { CiHeart } from "react-icons/ci";
 import { PiListPlus } from "react-icons/pi";
-import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { RxAvatar } from "react-icons/rx";
 import { MenuShop } from '@/components/layout/shop/menu';
+import { ModalSearch } from '@/components/layout/shop/searchModal';
+import { BasketShop } from '@/components/layout/shop/basketShop';
 
 
 
@@ -18,9 +17,9 @@ export const HeaderShop = () => {
 				{/* <Image src='/logo.png' alt='logo' fill className='object-fill' /> */}
 				<div>Logo</div>
 			</div>
-			<ul className='grid grid-flow-col gap-3'>
+			<ul className='grid grid-flow-col gap-3 justify-between'>
 				<li>
-					<CiSearch className='w-[18px] h-[18px] text-white hover:text-[#9466ff]' />
+					<ModalSearch />
 				</li>
 				<li>
 					<Link href='/favorites'>
@@ -33,9 +32,7 @@ export const HeaderShop = () => {
 					</Link>
 				</li>
 				<li>
-					<Link href='/cart'>
-						<HiOutlineShoppingBag className='w-[18px] h-[18px] text-white hover:text-[#9466ff]' />
-					</Link>
+					<BasketShop />
 				</li>
 				<li>
 					<Link href='/profile'>
