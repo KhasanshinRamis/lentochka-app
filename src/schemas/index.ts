@@ -14,6 +14,20 @@ export const NewProductSchema = z.object({
 	price: z.coerce.number(),
 });
 
+export const WishListItemSchema = z.object({
+	name: z.string().min(1, {
+		message: "Заполните поле!",
+	}),
+	description: z.string().min(1, {
+		message: "Заполните поле!",
+	}),
+	hashtag: z.string(),
+	image: z.optional(z.string()),
+	link: z.string().min(1, {
+		message: "Заполните поле!",
+	}),
+});
+
 
 export const LoginSchema = z.object({
 	email: z.string().email({

@@ -12,7 +12,6 @@ generator client {
 enum UserRole {
     ADMIN
     USER
-    BUSINESSMAN
 }
 
 model Account {
@@ -48,7 +47,6 @@ model User {
     isTwoFactorEnabled    Boolean                @default(false)
     isUserBanned          Boolean                @default(false)
     twoFactorConfirmation TwoFactorConfirmation?
-    // wishlists             Wishlist[]
     friends               Friends[]
     potentialFriends      PotentialFriends[]
 }
@@ -107,6 +105,7 @@ model Product {
     price       Float
     description String
     image       String
+    wishlistId  String?
 }
 
 model TwoFactorConfirmation {
@@ -118,26 +117,24 @@ model TwoFactorConfirmation {
     @@unique([userId])
 }
 
-// model Wishlist {
-//     id String @id @default(cuid())
+model Wishlist {
+    id String @id @default(cuid())
 
-//     userId String
-//     user   User   @relation(fields: [userId], references: [id])
+    userId String
 
-//     links    Link[]
-//     hashtags Hashtag[]
+    productId String
 
-//     @@unique([userId, id])
-// }
+    @@unique([userId, id])
+}
 
-// model Link {
-//     id         String   @id @default(cuid())
-//     url        String
-//     wishlistId String
-//     wishlist   Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+//  model Link {
+//      id         String   @id @default(cuid())
+//      url        String
+//      wishlistId String
+//      wishlist   Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
 
-//     @@index([wishlistId])
-// }
+//      @@index([wishlistId])
+//  }
 
 model Hashtag {
     id    String @id @default(cuid())
