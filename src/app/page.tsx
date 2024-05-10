@@ -15,7 +15,7 @@ export default function Home() {
 	return (
 		<main>
 			<Header/>
-			<SellerCard seller={sellerData} />
+			<StartpageContent></StartpageContent>
 			<Footer/>
 		</main>
 	);

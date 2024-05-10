@@ -58,8 +58,8 @@ const WishlistCard: React.FC<WishlistCardProps> = ({ gifts }) => {
   };
 
   return (
-    <div className="mx-auto relative bg-white rounded-xl shadow-md overflow-hidden md:max-w-xl">
-      <div className="p-2 md:flex flex-col">
+    <div className="relative bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="p-2 flex flex-col">
         <div className="flex mt-20 justify-center mb-10">
           {gifts && gifts.length > 1 ? (
             <Slider>
@@ -79,7 +79,7 @@ const WishlistCard: React.FC<WishlistCardProps> = ({ gifts }) => {
             </div>
           )}
         </div>
-        <div className="p-8 flex flex-col gap-y-10"> 
+        <div className="p-8 flex flex-col gap-y-10 min-w-80"> 
         <div>
           <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Описание</div>
           {isEditing ? (
