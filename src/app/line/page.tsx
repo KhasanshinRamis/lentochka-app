@@ -16,7 +16,7 @@ const Line = () => {
 
     console.log(wishlistData)
 
-    const [loadingMessage, setLoadingMessage] = useState("Çàãğóçêà...");
+    const [loadingMessage, setLoadingMessage] = useState("Ğ—Ğ°Ğ³Ñ€ÑƒĞ·ĞºĞ°...");
 
     const wishlistToCard: any = []
     const wishlistUsers: any = []
@@ -69,8 +69,8 @@ const Line = () => {
                                         <div className="flex items-center justify-center mb-8 gap-4">
                                             <div className="mr-4">
                                                 {user.userImage == '' ?
-                                                    <img src="/avatar.png" className="w-16 h-16 rounded-full" alt="Àâàòàğêà"></img> :
-                                                    <img src={user.userImage} className="w-16 h-16 rounded-full" alt="Àâàòàğêà"></img>
+                                                    <img src="/avatar.png" className="w-16 h-16 rounded-full" alt="ĞĞ²Ğ°Ñ‚Ğ°Ñ€ĞºĞ°"></img> :
+                                                    <img src={user.userImage} className="w-16 h-16 rounded-full" alt="ĞĞ²Ğ°Ñ‚Ğ°Ñ€ĞºĞ°"></img>
                                                 }
                                             </div>
                                             <div>

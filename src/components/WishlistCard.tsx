@@ -25,19 +25,19 @@ const WishlistCard = ({products}: WishlistCardProps) => {
         </div>
         <div className="p-8 flex flex-col gap-y-10 min-w-80"> 
         <div>
-          <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Описание</div>
+          <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">РћРїРёСЃР°РЅРёРµ</div>
             <div dangerouslySetInnerHTML={{ __html: product.description }} className='mt-2 text-gray-500' />
           </div>
           <div>
-            <label htmlFor="links" className="block text-sm font-medium text-gray-700">Ссылка на продукт: </label>
+            <label htmlFor="links" className="block text-sm font-medium text-gray-700">РЎСЃС‹Р»РєР° РЅР° РїСЂРѕРґСѓРєС‚: </label>
             <div>{product.slug}</div>
           </div>
           <div>
-            <label htmlFor="hashtags" className="block text-sm font-medium text-gray-700">Категория: </label>
+            <label htmlFor="hashtags" className="block text-sm font-medium text-gray-700">РљР°С‚РµРіРѕСЂРёСЏ: </label>
             <div>{product.hashtag?.title}</div>
           </div>
           <div>
-            <label htmlFor="hashtags" className="block text-sm font-medium text-gray-700">Название: </label>
+            <label htmlFor="hashtags" className="block text-sm font-medium text-gray-700">РќР°Р·РІР°РЅРёРµ: </label>
             <div>{product.name}</div>
           </div>
         </div>
