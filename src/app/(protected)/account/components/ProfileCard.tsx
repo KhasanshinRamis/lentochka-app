@@ -63,7 +63,7 @@ const ProfileCard = () => {
 		mutationKey: ['new-post'],
 		mutationFn: (values: z.infer<typeof WishListItemSchema>) => WishlistService.create(values),
 		onSuccess: (data: any) => {
-			toast.success('Вишлист успешно создан!')
+			toast.success('Р’РёС€Р»РёСЃС‚ СѓСЃРїРµС€РЅРѕ СЃРѕР·РґР°РЅ!')
 			form.reset();
 		},
 		onError: (error: any) => {
@@ -78,7 +78,7 @@ const ProfileCard = () => {
   //       select: ({data}) => data
   //   })
 
-  const {data: wishlistData, isSuccess} = useQuery({ 
+  const {data: wishlistData, isSuccess: isWishlistSuccess} = useQuery({ 
         queryKey: ['wishlist'],
         queryFn: () => WishlistService.getWishlists(),
         select: ({data}) => data
@@ -135,7 +135,7 @@ const ProfileCard = () => {
   }
 
   const handleSaveClick = (media: string, editedDescription: string) => {
-    // Отправка данных о профиле на сервер
+    // РћС‚РїСЂР°РІРєР° РґР°РЅРЅС‹С… Рѕ РїСЂРѕС„РёР»Рµ РЅР° СЃРµСЂРІРµСЂ
     console.log(editedDescription)
     const obj: iChange = {image: media, description: editedDescription}
     mutation.mutate(obj)
@@ -156,7 +156,7 @@ const ProfileCard = () => {
     setEditedDescription(event.target.value);
   };
 
-  const slugify = (str: string) => str.toLowerCase().trim().replace(/\W_/g, "").replace(/\s/g, "-").replace(/^-+|-+$/g, "").replace(/а/g, "a").replace(/б/g, "b").replace(/в/g, "v").replace(/г/g, "g").replace(/д/g, "d").replace(/е/g, "e").replace(/ё/g, "yo").replace(/ж/g, "zh").replace(/з/g, "z").replace(/и/g, "i").replace(/й/g, "y").replace(/к/g, "k").replace(/л/g, "l").replace(/м/g, "m").replace(/н/g, "n").replace(/о/g, "o").replace(/п/g, "p").replace(/р/g, "r").replace(/с/g, "s").replace(/т/g, "t").replace(/у/g, "u").replace(/ф/g, "f").replace(/х/g, "kh").replace(/ц/g, "ts").replace(/ч/g, "ch").replace(/ш/g, "sh").replace(/щ/g, "shch").replace(/ъ/g, "").replace(/ы/g, "y").replace(/ь/g, "").replace(/э/g, "e").replace(/ю/g, "yu").replace(/я/g, "ya").slice(0, 30);
+  const slugify = (str: string) => str.toLowerCase().trim().replace(/\W_/g, "").replace(/\s/g, "-").replace(/^-+|-+$/g, "").replace(/Р°/g, "a").replace(/Р±/g, "b").replace(/РІ/g, "v").replace(/Рі/g, "g").replace(/Рґ/g, "d").replace(/Рµ/g, "e").replace(/С‘/g, "yo").replace(/Р¶/g, "zh").replace(/Р·/g, "z").replace(/Рё/g, "i").replace(/Р№/g, "y").replace(/Рє/g, "k").replace(/Р»/g, "l").replace(/Рј/g, "m").replace(/РЅ/g, "n").replace(/Рѕ/g, "o").replace(/Рї/g, "p").replace(/СЂ/g, "r").replace(/СЃ/g, "s").replace(/С‚/g, "t").replace(/Сѓ/g, "u").replace(/С„/g, "f").replace(/С…/g, "kh").replace(/С†/g, "ts").replace(/С‡/g, "ch").replace(/С€/g, "sh").replace(/С‰/g, "shch").replace(/СЉ/g, "").replace(/С‹/g, "y").replace(/СЊ/g, "").replace(/СЌ/g, "e").replace(/СЋ/g, "yu").replace(/СЏ/g, "ya").slice(0, 30);
 
   const form = useForm<z.infer<typeof WishListItemSchema>>({
 		resolver: zodResolver(WishListItemSchema)
@@ -234,8 +234,8 @@ const ProfileCard = () => {
                 className="mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200 resize-none"
               />
             ) : (
-              //<p className="text-gray-700 mb-4">{user?.description || "Расскажите о себе"}</p>
-              <p className="text-gray-700 mb-4 max-w-40 overflow-x-auto">{editedDescription.length == 0 ? "Расскажите о себе" : editedDescription}</p>
+              //<p className="text-gray-700 mb-4">{user?.description || "Р Р°СЃСЃРєР°Р¶РёС‚Рµ Рѕ СЃРµР±Рµ"}</p>
+              <p className="text-gray-700 mb-4 max-w-40 overflow-x-auto">{editedDescription.length == 0 ? "Р Р°СЃСЃРєР°Р¶РёС‚Рµ Рѕ СЃРµР±Рµ" : editedDescription}</p>
             )}
             <div className="flex">
               {isEditing ? (
@@ -243,34 +243,34 @@ const ProfileCard = () => {
                   onClick={() => handleSaveClick(media, editedDescription)}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
                 >
-                  Сохранить
+                  РЎРѕС…СЂР°РЅРёС‚СЊ
                 </Button>
               ) : (
                 <Button
                   onClick={handleEditClick}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
                 >
-                  Редактировать
+                  Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ
                 </Button>
               )}
             </div>
           </div>
         </div>
       </div>
-      <div className="text-2xl font-bold">Вишлисты</div>
+      <div className="text-2xl font-bold">Р’РёС€Р»РёСЃС‚С‹</div>
       {wishlistModalOpen ? (
         <Button
           onClick={() => setWishlistModalOpen(false)}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
         >
-          Отменить
+          РћС‚РјРµРЅРёС‚СЊ
       </Button>
       ) : (
         <Button
           onClick={handleOpenWishlistClick}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
         >
-          Добавить
+          Р”РѕР±Р°РІРёС‚СЊ
         </Button>
       )}
         
@@ -279,7 +279,7 @@ const ProfileCard = () => {
           <CardHeader>
             <CardTitle>
               <p className='text-2xl font-semibold text-center md:text-lg'>
-                ?? Вишлист
+                рџ”‘ Р’РёС€Р»РёСЃС‚
               </p>
             </CardTitle>
           </CardHeader>
@@ -297,7 +297,7 @@ const ProfileCard = () => {
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder='Заголовок'
+                          placeholder='Р—Р°РіРѕР»РѕРІРѕРє'
                           disabled={mutation.isPending}
                         />
                       </FormControl>
@@ -313,7 +313,7 @@ const ProfileCard = () => {
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder='Ссылка'
+                          placeholder='РЎСЃС‹Р»РєР°'
                           type='url'
                           disabled={mutation.isPending}
                         />
@@ -334,17 +334,17 @@ const ProfileCard = () => {
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue
-                              placeholder='Выберите категорию'
+                              placeholder='Р’С‹Р±РµСЂРёС‚Рµ РєР°С‚РµРіРѕСЂРёСЋ'
 
                             />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           <SelectItem value='electronics'>
-                            Электроника
+                            Р­Р»РµРєС‚СЂРѕРЅРёРєР°
                           </SelectItem>
                           <SelectItem value='jewelry'>
-                            Ювелирное украшение
+                            Р®РІРµР»РёСЂРЅРѕРµ СѓРєСЂР°С€РµРЅРёРµ
                           </SelectItem>
                         </SelectContent>
                       </Select>
@@ -401,13 +401,15 @@ const ProfileCard = () => {
                   className='grid items-end'
                   disabled={mutation.isPending && disabledFromMedia}
                 >
-                  Создать новую запись
+                  РЎРѕР·РґР°С‚СЊ РЅРѕРІСѓСЋ Р·Р°РїРёСЃСЊ
                 </Button>
               </form>
             </Form>
           </CardContent>
         </Card>
       )}
+      {isWishlistSuccess && (<WishlistCard products={wishlistData}></WishlistCard>)
+      }
     </div>
   );
 };

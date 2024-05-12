@@ -17,6 +17,10 @@ const Sidebar: React.FC = () => {
     router.push("/settings");
   };
 
+  const lineSubmit = () => {
+    router.push("/line");
+  };
+
   return (
     <div className="h-auto min-h-screen w-64 bg-gray-900 text-gray-300 flex flex-col justify-between">
       <div className="mt-8 flex flex-col gap-y-4">
@@ -60,7 +64,8 @@ const Sidebar: React.FC = () => {
           </svg>
           Друзья
         </button>
-        <button className="block w-full py-2 px-4 text-left hover:bg-gray-800 hover:text-white transition duration-300 ease-in-out">
+        <button className="block w-full py-2 px-4 text-left hover:bg-gray-800 hover:text-white transition duration-300 ease-in-out"
+        onClick={lineSubmit}>
           <svg
             className="inline w-6 h-6 mr-2"
             fill="none"
