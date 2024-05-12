@@ -13,12 +13,13 @@ import { Input } from '@/components/ui/input';
 import { useEffect, useState } from 'react';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from '@/config/firebase';
-import productService from '@/services/productService';
+import productService from '@/services/newProductService';
 import { Button } from '@/components/ui/button';
 import { Tiptap } from '@/components/ui/tiptap';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { AdminNavbar } from '@/components/layout/admin/adminNavbar';
 import { useCurrentRole } from '@/hooks/useCurrentRole';
+import newProductService from '@/services/newProductService';
 
 
 
@@ -75,7 +76,7 @@ export default function NewProduct() {
 
 	const mutation = useMutation({
 		mutationKey: ['new-post'],
-		mutationFn: (values: z.infer<typeof NewProductSchema>) => productService.create(values),
+		mutationFn: (values: z.infer<typeof NewProductSchema>) => newProductService.create(values),
 		onSuccess: (data: any) => {
 			toast.success('Продукт создан!')
 			form.reset();

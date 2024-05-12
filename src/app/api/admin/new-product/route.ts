@@ -17,14 +17,14 @@ export const POST = async (req: NextRequest) => {
 
 		if (user.role === 'USER') return NextResponse.json({ error: 'Нет доступа' }, { status: 403 });
 
-		const hastagTag = await db.hashtag.findFirst({
+		const hastagTag = await db.category.findFirst({
 			where: { tag: body.hashtag }
 		});
 
 		if (user.id && hastagTag?.id) {
 			product = await db.product.create({
 				data: {
-					hashtagId: hastagTag?.id,
+					categoryId: hastagTag?.id,
 					slug: body.slug,
 					name: body.name,
 					description: body.description,

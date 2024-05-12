@@ -97,11 +97,11 @@ model TwoFactorToken {
 }
 
 model Product {
-    id          String  @id @default(cuid())
+    id          String   @id @default(cuid())
     name        String
-    hashtag     Hashtag @relation(fields: [hashtagId], references: [id])
-    hashtagId   String
-    slug        String  @unique
+    category    Category @relation(fields: [categoryId], references: [id])
+    categoryId  String
+    slug        String   @unique
     price       Float
     description String
     image       String
@@ -136,11 +136,11 @@ model Wishlist {
 //      @@index([wishlistId])
 //  }
 
-model Hashtag {
-    id    String @id @default(cuid())
-    title String
-    tag   String
-
+model Category {
+    id      String    @id @default(cuid())
+    title   String
+    tag     String
+    img     String
     Product Product[]
 
     // Wishlist   Wishlist? @relation(fields: [wishlistId], references: [id])

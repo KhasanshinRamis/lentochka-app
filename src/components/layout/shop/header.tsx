@@ -11,7 +11,7 @@ import { BasketShop } from '@/components/layout/shop/basketShop';
 
 export const HeaderShop = () => {
 	return (
-		<header className='grid grid-flow-col grid-cols-3 items-center relative z-3 px-9 py-6 bg-[#1D2533] shadow-sm'>
+		<header className='grid grid-flow-col grid-cols-3 items-center relative px-4 py-6 bg-gray-900'>
 			<MenuShop />
 			<div className='grid items-center justify-center relative h-[50px]'>
 				{/* <Image src='/logo.png' alt='logo' fill className='object-fill' /> */}

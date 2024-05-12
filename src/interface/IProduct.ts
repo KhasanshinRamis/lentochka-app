@@ -1,9 +1,9 @@
-import { Hashtag } from '@prisma/client';
+import { Category } from '@prisma/client';
 
 export interface IProduct {
 	id: string;
 	name: string;
-	hashtag: Hashtag;
+	category: Category;
 	hashtagId: string;
 	slug: string;
 	price: number;

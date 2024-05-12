@@ -1,3 +1,4 @@
+import { Footer } from '@/components/layout/footer';
 import { HeaderShop } from '@/components/layout/shop/header';
 
 export default function ShopLayout({ children }: { children: React.ReactNode }) {
@@ -5,6 +6,7 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
 		<div>
 			<HeaderShop />
 			{children}
+			<Footer />
 		</div>
 	);
 }

@@ -4,11 +4,12 @@ import { NewProductSchema } from '@/schemas';
 import { IProduct } from '@/interface/IProduct';
 
 class ProductService {
-	private URL = `${process.env.NEXT_PUBLIC_APP_URL}/api/admin/new-product`;
+	private URL = `${process.env.NEXT_PUBLIC_APP_URL}/api/product`;
 
-	async create(newPost: z.infer<typeof NewProductSchema>) {
-		return axios.post(`${this.URL}`, newPost);
-	}
+	async getByCategory(category: string) {
+		return axios.get(`${this.URL}?category=${category}`);
+	};
+	
 }
 
 export default new ProductService();

@@ -16,14 +16,14 @@ export const POST = async (req: NextRequest) => {
 			return NextResponse.json({ error: "Необходимо авторизоваться" }, { status: 401 });
 		}
 
-		const hastagTag = await db.hashtag.findFirst({
+		const hastagTag = await db.category.findFirst({
 			where: { tag: body.hashtag }
 		})
 
 		if (user.id && hastagTag?.id) {
 			product = await db.product.create({
 				data: {
-					hashtagId: hastagTag?.id,
+					categoryId: hastagTag?.id,
 					name: body.name,
 					description: body.description,
 					image: body.img,
