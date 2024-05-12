@@ -25,7 +25,7 @@ export const AdminNavbar = () => {
 				className='md:text-sm sm:text-xs'
 			>
 				<Link href='/admin/new-product'>
-					CSM
+					CMS
 				</Link>
 			</Button>
 		</nav>

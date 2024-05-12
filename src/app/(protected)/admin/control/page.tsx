@@ -85,11 +85,16 @@ export default function ControlPage() {
 				{isLoading && <div className='grid justify-center'><BeatLoader className='grid grid-flow-col my-6' /></div>}
 				{isSuccess &&
 					<CardContent>
+						<div className='grid grid-flow-col grid-cols-4 items-center gap-1'>
+							<div className='text-base text-center font-medium grid justify-center md:text-xs sm:text-[9px]'>ФИО</div>
+							<div className='text-base text-center font-medium grid justify-center md:text-xs sm:text-[9px]'>Псевдоним</div>
+							<div className='text-base text-center font-medium grid justify-center md:text-xs sm:text-[9px]'>Бан</div>
+						</div>
+
 						{usersData.map((user: IUserConrol) => (
-							<div className='grid grid-flow-col items-center gap-1' key={user.id}>
+							<div className='grid grid-flow-col grid-cols-4 items-center gap-1' key={user.id}>
 								<div className='text-base text-center font-medium grid justify-center md:text-xs sm:text-[9px]'>{user.name}</div>
 								<div className='text-base text-center font-medium grid justify-center md:text-xs sm:text-[9px]'>{user.nickname}</div>
-								<div className='text-base text-center font-medium grid justify-center md:text-xs sm:text-[9px]'>{user.isUserBanned}</div>
 								<div className='grid items-center justify-center p-3 '>
 									<Switch
 										checked={user?.isUserBanned}

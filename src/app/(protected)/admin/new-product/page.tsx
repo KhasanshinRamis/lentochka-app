@@ -130,7 +130,7 @@ export default function NewProduct() {
 				<CardHeader>
 					<CardTitle>
 						<p className='text-2xl font-semibold text-center md:text-lg'>
-							🔑 Управление
+							Добавление продукта
 						</p>
 					</CardTitle>
 				</CardHeader>
