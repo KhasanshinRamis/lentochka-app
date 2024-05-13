@@ -20,6 +20,7 @@ import { WishListItemSchema } from '@/schemas';
 import toast from 'react-hot-toast';
 import productService from '@/services/newProductService';
 import WishlistService from '@/services/WishlistService';
+import { useRouter } from 'next/navigation';
 
 
 
@@ -27,6 +28,7 @@ import WishlistService from '@/services/WishlistService';
 
 
 const ProfileCard = () => {
+	const router = useRouter()
 	const user = useCurrentUser();
 	const [isEditing, setIsEditing] = useState<boolean>(false);
 	const [editedName, setEditedName] = useState<string>(user?.name || '');
@@ -65,6 +67,7 @@ const ProfileCard = () => {
 		onSuccess: (data: any) => {
 			toast.success('Вишлист успешно создан!')
 			form.reset();
+			router.push('/account')
 		},
 		onError: (error: any) => {
 			console.log(error.message);
@@ -176,9 +179,9 @@ const ProfileCard = () => {
 	};
 
 	return (
-		<div className="flex flex-col items-center justify-center h-full gap-y-20">
+		<div className="flex flex-col items-center justify-start h-full gap-y-20 bg-repeat bg-contain" style={{ backgroundImage: 'url("back2.jpg")', backgroundSize: 'auto' }}>
 			<div className="flex items-center justify-center">
-				<div className="md:flex">
+				<div className="md:flex items-center justify-center bg-white rounded-xl shadow-md p-4 mt-4">
 					<div className="md:flex-shrink-0 relative">
 						<img
 							className="h-48 w-48 object-cover rounded-full mx-auto mt-6 md:mt-0 cursor-pointer transition-opacity duration-300 ease-in-out hover:opacity-80"
@@ -257,20 +260,19 @@ const ProfileCard = () => {
 					</div>
 				</div>
 			</div>
-			<div className="text-2xl font-bold">Вишлисты</div>
 			{wishlistModalOpen ? (
 				<Button
 					onClick={() => setWishlistModalOpen(false)}
-					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+					className="bg-blue-500 hover:bg-blue-700 text-white text-xl font-bold py-6 px-6 rounded mr-2"
 				>
 					Отменить
 				</Button>
 			) : (
 				<Button
 					onClick={handleOpenWishlistClick}
-					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+					className="bg-blue-500 hover:bg-blue-700 text-white text-xl font-bold py-6 px-6 rounded mr-2"
 				>
-					Добавить
+					Создать вишлист
 				</Button>
 			)}
 
@@ -398,7 +400,7 @@ const ProfileCard = () => {
 								/>
 								<Button
 									type='submit'
-									className='grid items-end'
+									className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded mr-2'
 									disabled={mutation.isPending && disabledFromMedia}
 								>
 									Создать новую запись
@@ -408,6 +410,7 @@ const ProfileCard = () => {
 					</CardContent>
 				</Card>
 			)}
+			<div className="text-3xl font-bold bg-white rounded-xl shadow-md p-4">Ваши вишлисты</div>
 			{isWishlistSuccess && (<WishlistCard products={wishlistData}></WishlistCard>)
 			}
 		</div>
