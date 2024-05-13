@@ -18,6 +18,9 @@ import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { UserRole } from '@prisma/client';
+import { Footer } from '@/components/layout/footer';
+import { Header } from '@/components/layout/header';
+import Sidebar from '@/components/Sidebar';
 
 
 
@@ -71,7 +74,11 @@ export default function SettingsPage() {
 	};
 
 	return (
-		<div className='grid items-center justify-center min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800'>
+		<div>
+		<div className="flex flex-row">
+				<Sidebar></Sidebar>
+				<div className="flex-grow">
+					<div className='grid items-center justify-center min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] bg-repeat bg-cover' style={{ backgroundImage: 'url("back2.jpg")', backgroundSize: 'auto' }}>
 			<Card className='w-[600px] md:w-[450px] sm:w-[300px]'>
 				<CardHeader>
 					<p className='text-2xl font-semibold text-center'>
@@ -224,6 +231,7 @@ export default function SettingsPage() {
 							<FormError message={errorMessage} />
 							<FormSuccess message={success} />
 							<Button
+								className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded mr-2'
 								type='submit'
 								disabled={mutation.isPending}
 							>
@@ -233,6 +241,10 @@ export default function SettingsPage() {
 					</Form>
 				</CardContent>
 			</Card>
+		</div>
+				</div>
+		</div>
+
 		</div>
 	);
 }

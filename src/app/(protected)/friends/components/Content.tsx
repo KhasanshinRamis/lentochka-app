@@ -96,12 +96,12 @@ const Content: React.FC = () => {
             <div className="flex flex-col gap-y-8">
                 <div className="flex items-center justify-center">
                     <div className="flex w-full max-w-sm items-center space-x-2">
-                        <Input type="search" placeholder="nickname" onChange={(event) => setInputValue(event.target.value)} />
-                        <Button type="submit" onClick={onSearchClick}>Search</Button>
+                        <Input type="search" placeholder="nickname" className='bg-neutral-50 border-neutral-900' onChange={(event) => setInputValue(event.target.value)} />
+                        <Button type="submit" className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded mr-2' onClick={onSearchClick}>Search</Button>
                     </div>
                 </div>
                 {data?.data && (
-                    <div className="flex flex-row gap-x-4 items-center">
+                    <div className="flex flex-row gap-x-4 items-center bg-white rounded-xl shadow-md p-4 inline-block max-w-min">
                         <div className="relative w-12 h-12">
                             <img
                                 src={data?.data.image ? data?.data.image : "/avatar.png"}
@@ -112,7 +112,7 @@ const Content: React.FC = () => {
                         </div>
                         <div className="ml-4">{data?.data.nickname}</div>
                         {!friendsdata.some((friend: any) => friend.nicknameTo === data?.data.nickname) && !potentialfriendsdata.friendsfrom.some((friend: any) => friend.nicknameTo === data?.data.nickname) && (
-                        <Button onClick={onAddFriend}>Add Friend</Button>
+                        <Button onClick={onAddFriend} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded mr-2'>Add Friend</Button>
                     )}
                     </div>
                 )}
@@ -121,8 +121,8 @@ const Content: React.FC = () => {
                         {potentialfriendsdata?.friends.map((friend: any) => (
                             <div key={friend.id}>
                             <div className="flex flex-col gap-y-2">
-                            <div className="text-lg">Заявки в друзья</div>
-                            <div className="flex">
+                            <div className="text-lg bg-white rounded-xl shadow-md p-4 inline-block max-w-44">Заявки в друзья</div>
+                            <div className="flex bg-white rounded-xl shadow-md p-4 inline-block max-w-min">
                                 <div className="flex flex-row items-center gap-x-4">
                                     <div className="relative w-12 h-12">
                                         <img
@@ -134,8 +134,8 @@ const Content: React.FC = () => {
                                     </div>
                                     <div>{friend.nicknameBy}</div>
                                     <div className="flex flex-row gap-x-1">
-                                        <Button onClick={() => onAdd(friend)}>Принять</Button>
-                                        <Button onClick={() => onDeny(friend)}>Отклонить</Button>
+                                        <Button onClick={() => onAdd(friend)} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded mr-2'>Принять</Button>
+                                        <Button onClick={() => onDeny(friend)} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded mr-2'>Отклонить</Button>
                                     </div>
                                 </div>
                             </div>
@@ -146,14 +146,16 @@ const Content: React.FC = () => {
 
                 <div className="">
                         {isLoading && (
-                            <div className="flex items-center justify-center text-lg">Загрузка...</div>
+                            <div className="flex items-center justify-center font-bold text-lg">Загрузка...</div>
                         )}
 
                         {isSuccess && (
                             <div className="flex flex-col gap-y-4">
-                                <div className="text-lg">Друзья</div>
+                                <div className="text-lg bg-white rounded-xl shadow-md p-4 inline-block max-w-min">
+                                    Друзья
+                                </div>
                                 {friendsdata.map((friend: any) => (
-                                <div key={friend?.id} className="flex items-center flex-row gap-4">
+                                <div key={friend?.id} className="flex items-center flex-row gap-4 bg-white rounded-xl shadow-md p-4 inline-block max-w-min">
                                     <div className="relative w-12 h-12">
                                         <img
                                             src={data?.data.image ? data?.data.image : "/avatar.png"}
@@ -162,7 +164,7 @@ const Content: React.FC = () => {
                                         />
                                     </div>
                                     <div className="text-zinc-950">{friend?.nicknameTo}</div>
-                                    <Button onClick={() => onDelete(friend)}>Удалить</Button>
+                                    <Button onClick={() => onDelete(friend)} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded mr-2'>Удалить</Button>
                                 </div>
                             ))}
                         </div>)}

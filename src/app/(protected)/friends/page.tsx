@@ -10,7 +10,7 @@ const Friends = () => {
             <Header/>
             <div className="flex flex-row">  
                 <Sidebar></Sidebar>
-                <div className="flex-grow">
+                <div className="flex-grow bg-repeat bg-contain" style={{ backgroundImage: 'url("back2.jpg")', backgroundSize: 'auto' }}>
                 <Content/>
                 </div>
             </div>
