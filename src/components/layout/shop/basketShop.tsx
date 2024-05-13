@@ -6,13 +6,71 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { useState } from 'react';
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import basketService from '@/services/basketService';
+import { IBasket } from '@/interface/IBasket';
+import toast from 'react-hot-toast';
+import { BeatLoader } from 'react-spinners';
 
+interface IdeleteProductFromBasket {
+	productId: string
+};
 
+interface IChangeCountProductInBasket {
+	productId: string;
+	changeCount: string;
+};
 
 export const BasketShop = () => {
-	var [count, setCount] = useState<number>(1);
+
+	const queryClient = useQueryClient()
+
+	var totalPrice = 0;
+
+	const { data: basketShop, isLoading, isSuccess: isBasketShopSucces } = useQuery({
+		queryKey: ['basket-get-data'],
+		queryFn: () => basketService.get(),
+		select: ({ data }) => data
+	});
+
+	isBasketShopSucces && Array.isArray(basketShop) && basketShop.map((itemBasketShop: IBasket) => {
+		totalPrice += itemBasketShop.productPrice * itemBasketShop.productCount;
+	});
+
+	const { mutate: deleteMutation, isSuccess: isDeleteMutationSucces, isPending: isDeleteMutationPending } = useMutation({
+		mutationKey: ['delete-basket'],
+		mutationFn: (values: IdeleteProductFromBasket) => basketService.delete(values),
+		onSuccess: (data) => {
+			toast.success(data.data.success);
+			queryClient.invalidateQueries({ queryKey: ['basket-get-data'] });
+		}
+	})
+
+	const { mutate: changeMutation, isSuccess: isChangeMutationSuccess, isPending: isChangeMutatuionPending } = useMutation({
+		mutationKey: ['change-basket'],
+		mutationFn: (values: IChangeCountProductInBasket) => basketService.update(values),
+		onSuccess: (data) => {
+			toast.success(data.data.success);
+			queryClient.invalidateQueries({ queryKey: ['basket-get-data'] });
+		}
+	})
+
+	const onDeleteItemFromBasket = (productId: string) => {
+		const values = {
+			productId
+		}
+		deleteMutation(values);
+	};
+
+	const onChange = (productId: string, changeCount: string) => {
+		const values = {
+			productId,
+			changeCount
+		};
+		changeMutation(values);
+	}
+
 	return (
 		<Popover>
 			<PopoverTrigger>
@@ -24,28 +82,34 @@ export const BasketShop = () => {
 						Корзина
 					</h2>
 				</div>
-				<ScrollArea className="min-h-[50px] max-h-[150px] w-[450px] mb-[6px] border-b-2">
-					<div className='grid grid-flow-col grid-cols-[80px_1fr] gap-1 py-[6px]'>
-						<div className='relative h-[80px] w-[80px]'>
-							<Image src='/product.jpg' alt='product' fill className='object-fill' />
-						</div>
-						<div className='grid grid-rows-[1fr_20px]'>
-							<div className='grid grid-flow-col grid-cols-[1fr_20px] gap-2 p-2 pr-0'>
-								<h3>Title</h3>
-								<Trash className='w-[20px] h-[20px]' />
+				<ScrollArea className="min-h-[50px] max-h-[150px] w-[450px] mb-[6px] border-b-2 overflow-y-scroll">
+					{isLoading && <div className='grid justify-center'><BeatLoader className='grid grid-flow-col my-6' /></div>}
+
+
+					{isBasketShopSucces && basketShop.map((product: IBasket) => (
+						<div key={product.productId} className='grid grid-flow-col grid-cols-[80px_1fr] gap-1 py-[6px]'>
+
+							<div className='relative h-[80px] w-[80px]'>
+								<Image src={`/${product.productImage}`} alt='product' fill className='object-fill' />
 							</div>
-							<div className='grid grid-flow-col grid-cols-[2fr_1fr] gap-3'>
-								<div className='rounded-xl bg-muted grid grid-flow-col grid-cols-3'>
-									<span className='grid justify-center cursor-pointer' onClick={() => setCount(count -= 1)}>-</span>
-									<span className='grid justify-center'>{count}</span>
-									<span className='grid justify-center cursor-pointer' onClick={() => setCount(count += 1)}>+</span>
+							<div className='grid grid-rows-[1fr_20px]'>
+								<div className='grid grid-flow-col grid-cols-[1fr_20px] gap-2 p-2 pr-0'>
+									<h3>{product.productName}</h3>
+									<Trash className='w-[20px] h-[20px] cursor-pointer' onClick={() => onDeleteItemFromBasket(product.productId)} />
 								</div>
-								<p className='grid justify-end'>
-									2300 P
-								</p>
+								<div className='grid grid-flow-col grid-cols-[2fr_1fr] gap-3'>
+									<div className='rounded-xl bg-muted grid grid-flow-col grid-cols-3'>
+										<span onClick={() => onChange(product.productId, 'minus')} className='grid justify-center cursor-pointer'>-</span>
+										<span className='grid justify-center'>{product.productCount}</span>
+										<span onClick={() => onChange(product.productId, 'plus')} className='grid justify-center cursor-pointer'>+</span>
+									</div>
+									<p className='grid justify-end'>
+										{product.productPrice} P
+									</p>
+								</div>
 							</div>
 						</div>
-					</div>
+					))}
 				</ScrollArea>
 				<div>
 					<div className='grid grid-flow-col grid-cols-[2fr_1fr] gap-3'>
@@ -53,7 +117,7 @@ export const BasketShop = () => {
 							Сумма заказа:
 						</p>
 						<p className='grid justify-end'>
-							{count * 2300} Р
+							{totalPrice} ₽
 						</p>
 					</div>
 				</div>

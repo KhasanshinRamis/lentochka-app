@@ -35,7 +35,7 @@ export const HeaderShop = () => {
 					<BasketShop />
 				</li>
 				<li>
-					<Link href='/profile'>
+					<Link href='/account'>
 						<RxAvatar className='w-[18px] h-[18px] text-white hover:text-[#9466ff]' />
 					</Link>
 

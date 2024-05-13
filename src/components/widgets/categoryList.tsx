@@ -13,6 +13,7 @@ import categoryService from '@/services/categoryService';
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image';
 import Link from 'next/link';
+import { BeatLoader } from 'react-spinners';
 
 export function CategoryList() {
 
@@ -25,7 +26,9 @@ export function CategoryList() {
 	return (
 		<div className='pt-6 px-14'>
 			<h2 className='text-2xl text-foreground mb-3'>Категории: </h2>
-			<Carousel
+			{isLoading && <div className='grid justify-center'><BeatLoader className='grid grid-flow-col my-6' /></div>}
+
+			{isSuccess && <Carousel
 				opts={{
 					align: "start",
 				}}
@@ -54,7 +57,7 @@ export function CategoryList() {
 				</CarouselContent>
 
 				<CarouselNext />
-			</Carousel>
+			</Carousel>}
 		</div>
 	)
 }

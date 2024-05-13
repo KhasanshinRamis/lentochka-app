@@ -108,6 +108,13 @@ model Product {
     wishlistId  String?
 }
 
+model Basket {
+    id        String @id @default(cuid())
+    userId    String
+    productId String
+    count     Int
+}
+
 model TwoFactorConfirmation {
     id String @id @default(cuid())
 

@@ -82,7 +82,10 @@ const Sidebar: React.FC = () => {
           </svg>
           Лента
         </button>
-        <button className="block w-full py-2 px-4 text-left hover:bg-gray-800 hover:text-white transition duration-300 ease-in-out">
+        <button 
+			className="block w-full py-2 px-4 text-left hover:bg-gray-800 hover:text-white transition duration-300 ease-in-out"
+			onClick={() => router.push('/shop')}
+		>
           <svg
             className="inline w-6 h-6 mr-2"
             fill="none"
