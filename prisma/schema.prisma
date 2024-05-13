@@ -115,6 +115,16 @@ model Basket {
     count     Int
 }
 
+model Order {
+    id           String   @id @default(cuid())
+    userId       String
+    productId    String[]
+    status       String
+    createdAt    DateTime
+    deliveryDate DateTime
+    adress       String
+}
+
 model TwoFactorConfirmation {
     id String @id @default(cuid())
 

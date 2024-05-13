@@ -41,6 +41,13 @@ export const LoginSchema = z.object({
 	callbackUrl: z.optional(z.string().nullable()),
 });
 
+export const PaySchema = z.object({
+	cardNumber: z.coerce.number(),
+	date: z.coerce.number(),
+	cvc: z.coerce.number(),
+	adress: z.string()
+});
+
 export const RegisterSchema = z.object({
 	email: z.string().email({
 		message: "Заполните поле email!",

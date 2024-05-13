@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Trash } from 'lucide-react';
+import { Router, Trash } from 'lucide-react';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import {
 	Popover,
@@ -12,6 +12,9 @@ import basketService from '@/services/basketService';
 import { IBasket } from '@/interface/IBasket';
 import toast from 'react-hot-toast';
 import { BeatLoader } from 'react-spinners';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import orderService from '@/services/orderService';
 
 interface IdeleteProductFromBasket {
 	productId: string
@@ -22,9 +25,14 @@ interface IChangeCountProductInBasket {
 	changeCount: string;
 };
 
+interface IPay {
+	arrProductId: string[]
+}
+
 export const BasketShop = () => {
 
-	const queryClient = useQueryClient()
+	const queryClient = useQueryClient();
+	const router = useRouter();
 
 	var totalPrice = 0;
 
@@ -55,6 +63,28 @@ export const BasketShop = () => {
 			queryClient.invalidateQueries({ queryKey: ['basket-get-data'] });
 		}
 	})
+
+	const { mutate: payMutation, isSuccess: payMutationSuccess, isPending: payMutatuionPending } = useMutation({
+		mutationKey: ['pay'],
+		mutationFn: (values: IPay) => orderService.create(values),
+		onSuccess: (data) => {
+			console.log('mutat', data.data);
+			router.push(`/shop/pay?order=${data.data.id}`)
+		}
+	})
+
+
+	const onPay = () => {
+		var arrProductId: string[] = [];
+		isBasketShopSucces && Array.isArray(basketShop) && basketShop.map((itemBasketShop: IBasket) => {
+			arrProductId.push(itemBasketShop.id);
+		});
+		console.log(arrProductId);
+		const values = {
+			arrProductId,
+		};
+		payMutation(values);
+	}
 
 	const onDeleteItemFromBasket = (productId: string) => {
 		const values = {
@@ -120,6 +150,9 @@ export const BasketShop = () => {
 							{totalPrice} ₽
 						</p>
 					</div>
+					<Button onClick={onPay}>
+						Оформить заказ
+					</Button>
 				</div>
 			</PopoverContent>
 
