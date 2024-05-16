@@ -12,8 +12,6 @@ interface ProductListProps {
 
 
 export const ProductList = ({ category }: ProductListProps) => {
-	console.log('category  ', category);
-
 	const { data: productData, isSuccess, isLoading } = useQuery({
 		queryKey: ['product', category],
 		queryFn: () => productService.getByCategory(category),

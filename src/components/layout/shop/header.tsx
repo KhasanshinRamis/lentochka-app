@@ -1,11 +1,11 @@
 'use client';
 import Link from 'next/link';
 import { CiHeart } from "react-icons/ci";
-import { PiListPlus } from "react-icons/pi";
 import { RxAvatar } from "react-icons/rx";
 import { MenuShop } from '@/components/layout/shop/menu';
-import { ModalSearch } from '@/components/layout/shop/searchModal';
-import { BasketShop } from '@/components/layout/shop/basketShop';
+import { ModalSearch } from '@/components/widgets/searchModal';
+import { BasketShop } from '@/components/widgets/basketShop';
+import { OrderBasket } from '@/components/widgets/orderBasket';
 
 
 
@@ -27,9 +27,7 @@ export const HeaderShop = () => {
 					</Link>
 				</li>
 				<li>
-					<Link href='/comparision'>
-						<PiListPlus className='w-[18px] h-[18px] text-white hover:text-[#9466ff]' />
-					</Link>
+					<OrderBasket />
 				</li>
 				<li>
 					<BasketShop />

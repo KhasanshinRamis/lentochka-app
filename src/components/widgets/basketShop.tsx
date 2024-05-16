@@ -73,14 +73,14 @@ export const BasketShop = () => {
 	})
 
 	// console.log(basketShop);
-	
+
 
 	const onPay = () => {
 		var arrProductId: string[] = [];
 		isBasketShopSucces && Array.isArray(basketShop) && basketShop.map((itemBasketShop: IBasket) => {
 			arrProductId.push(itemBasketShop.productId);
 		});
-		
+
 		const values = {
 			arrProductId,
 		};
@@ -143,7 +143,7 @@ export const BasketShop = () => {
 					))}
 				</ScrollArea>
 				<div>
-					<div className='grid grid-flow-col grid-cols-[2fr_1fr] gap-3'>
+					<div className='grid grid-flow-col grid-cols-[2fr_1fr] gap-3 my-2'>
 						<p>
 							Сумма заказа:
 						</p>
@@ -151,7 +151,7 @@ export const BasketShop = () => {
 							{totalPrice} ₽
 						</p>
 					</div>
-					<Button onClick={onPay}>
+					<Button className='w-full' onClick={onPay}>
 						Оформить заказ
 					</Button>
 				</div>

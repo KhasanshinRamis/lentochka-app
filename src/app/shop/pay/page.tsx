@@ -27,6 +27,7 @@ import { useRouter } from 'next/navigation';
 
 export default function PayPage({ searchParams }: any) {
 	
+	const queryClient = useQueryClient();
 	const router = useRouter();
 	const orderId = searchParams.order;
 
@@ -45,6 +46,9 @@ export default function PayPage({ searchParams }: any) {
 		mutationFn: (val: z.infer<typeof PaySchema>) => payService.update(val, orderId),
 		onSuccess: (data: any) => {
 			toast.success('Товар оплачен!');
+			queryClient.invalidateQueries({
+				queryKey: ['order-basket']
+			});
 			router.push('/shop');
 		},
 		onError: (error: any) => {
