@@ -51,7 +51,7 @@ export const OrderBasket = () => {
 								</div>
 								<div className='grid grid-cols-2 justify-evenly'>
 									<p>{order.status}</p>
-									<p>{formatTime(order.deliveryDate)}</p>
+									<p>{order.status === 'Оплачено' && formatTime(order.deliveryDate)}</p>
 								</div>
 							</div>
 						</div>
