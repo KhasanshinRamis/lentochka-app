@@ -68,18 +68,19 @@ export const BasketShop = () => {
 		mutationKey: ['pay'],
 		mutationFn: (values: IPay) => orderService.create(values),
 		onSuccess: (data) => {
-			console.log('mutat', data.data);
 			router.push(`/shop/pay?order=${data.data.id}`)
 		}
 	})
 
+	// console.log(basketShop);
+	
 
 	const onPay = () => {
 		var arrProductId: string[] = [];
 		isBasketShopSucces && Array.isArray(basketShop) && basketShop.map((itemBasketShop: IBasket) => {
-			arrProductId.push(itemBasketShop.id);
+			arrProductId.push(itemBasketShop.productId);
 		});
-		console.log(arrProductId);
+		
 		const values = {
 			arrProductId,
 		};

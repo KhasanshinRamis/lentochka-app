@@ -21,24 +21,31 @@ import { Footer } from '@/components/layout/footer';
 import { Header } from '@/components/layout/header';
 import Sidebar from '@/components/Sidebar';
 import payService from '@/services/payService';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 
 export default function PayPage({ searchParams }: any) {
-	const queryClient = useQueryClient();
-	const user = useCurrentUser();
+	
+	const router = useRouter();
 	const orderId = searchParams.order;
 
 	const form = useForm<z.infer<typeof PaySchema>>({
 		resolver: zodResolver(PaySchema),
 	});
 
+	const { data: totalPrice, isLoading, isSuccess } = useQuery({
+		queryKey: ['totalPrice-data'],
+		queryFn: () => payService.get(orderId),
+		select: ({ data }) => data
+	});
 
 	const mutation = useMutation({
 		mutationKey: ['pay-mutation'],
 		mutationFn: (val: z.infer<typeof PaySchema>) => payService.update(val, orderId),
 		onSuccess: (data: any) => {
-			console.log('Success!', data);
-			console.log(data.success);
+			toast.success('Товар оплачен!');
+			router.push('/shop');
 		},
 		onError: (error: any) => {
 			console.log(error.message);
@@ -139,10 +146,12 @@ export default function PayPage({ searchParams }: any) {
 												)}
 											/>
 										</div>
-										{/* TODO: Вывод сумма оплаты */}
-										<div>Сумма оплаты: </div>
+										<div className='grid grid-cols-[2fr_1fr]'>
+											<p>Сумма оплаты:</p>
+											{isSuccess && <span>{totalPrice} ₽</span>}
+										</div>
 										<Button
-											className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded mr-2'
+											className='bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-4 px-4 rounded mr-2'
 											type='submit'
 											disabled={mutation.isPending}
 										>

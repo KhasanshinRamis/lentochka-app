@@ -10,6 +10,10 @@ class PayService {
 		return axios.put<z.infer<typeof PaySchema>>(`${this.URL}?order=${orderId}`, values);
 	};
 
+	async get(orderId: string){
+		return axios.get(`${this.URL}?order=${orderId}`);
+	}
+
 
 };
 
